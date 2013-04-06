@@ -1,0 +1,9 @@
+{
+  "name": "supericosahedron",
+  "version": "0.0.1",
+  "description": "Super!",
+  "dependencies": {
+    "express": "2.5.11",
+    "ejs": "~0.8.3"
+  }
+}
