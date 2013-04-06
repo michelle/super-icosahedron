@@ -1,6 +1,13 @@
 /** ====== USER ====== */
 function User(email) {
   this.email = email;
+  this.score = 0;
+  // theta, phi.
+  this.position = [Math.random() * Math.PI * 2, 0];
+
+  if (this.email) {
+    this.setGravatarImage();
+  }
 };
 
 
