@@ -1,26 +1,41 @@
 var stats;
 
 function init() {
-  camera = new THREE.PerspectiveCamera(55, 
-      window.innerWidth / window.innerHeight, 20, 3000);
-  camera.position.z = 1000;
-
   scene = new THREE.Scene();
 
-  var dark_material = new THREE.MeshBasicMaterial( { color: 0xffffcc } );
+
+
+
+  // set the view size in pixels (custom or according to window size)
+  // var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
+  var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;	
+  // camera attributes
+  var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+  // set up camera
+  camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+  // add the camera to the scene
+  // 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
+  camera.position.set(0,150,400);
+  camera.lookAt(scene.position);	
+  
+  controls = new THREE.TrackballControls( camera );
+
+  var dark_material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
   var wireframe_material = new THREE.MeshBasicMaterial( { color: 0x000000, 
     wireframe: true, transparent: true } ); 
   var multiMaterial = [ dark_material, wireframe_material ]; 
 
-  var test_material = new THREE.MeshLambertMaterial( {color: 0x8888ff} );
-  var geometry = new THREE.CubeGeometry(500,500,500);
-  cube = new THREE.Mesh(geometry, test_material);
-  //scene.add(cube);
-
   var shape = THREE.SceneUtils.createMultiMaterialObject( 
       new THREE.IcosahedronGeometry( 500, 1 ), // radius, subdivisions
       multiMaterial );
-  scene.add( shape );
+  //scene.add(shape);
+
+  //drawIsocahedronPoints(scene,100);
+  var squarecone_geo = new SquareCone(100,10);
+  //var squarecone_geo = new THREE.CubeGeometry(10,10,10);
+  var squarecone = new THREE.Mesh(squarecone_geo, dark_material);
+  scene.add(squarecone);
+
 
   var axes = new THREE.AxisHelper(100);
   scene.add( axes );
@@ -44,6 +59,7 @@ function animate()  {
   requestAnimationFrame( animate );
   render();
   update();
+  controls.update();
   stats.update();
 }
 
