@@ -4,6 +4,8 @@
   "description": "Super!",
   "dependencies": {
     "express": "2.5.11",
-    "ejs": "~0.8.3"
+    "ejs": "~0.8.3",
+    "mongoskin": "~0.5.0",
+    "binaryjs": "~0.1.8"
   }
 }
