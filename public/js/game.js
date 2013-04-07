@@ -137,7 +137,8 @@ Game.prototype.updateScore = function() {
 };
 
 Game.prototype.end = function() {
-  if (this.started) {
+  // 2 second immunity;
+  if (this.started && this.score > 2) {
     this.user.die(this.score);
     clearInterval(this.i0);
     clearTimeout(this.t0);
