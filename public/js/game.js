@@ -142,6 +142,7 @@ Game.prototype.error = function(msg) {
 Game.prototype.start = function() {
   // TODO: CANNOT start until this.stream exists.
   this.started = true;
+  buildShaderPasses();
   this.score = 0;
   this.color_theme = [0,0,0];
 
@@ -179,6 +180,7 @@ Game.prototype.end = function() {
       color:0xAA0114 });
     this.color_theme = [0, 255, 255];
     this.started = false;
+    buildShaderPasses();
 
     this.promptRestart();
   }

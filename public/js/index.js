@@ -1,4 +1,4 @@
-var stats;
+var stats,scene,oclscene,glowscene;
 
 function init() {
   $('img').each(function() {
@@ -18,9 +18,9 @@ function init() {
   scene.add(light);
   var ambientLight = new THREE.AmbientLight(0x111111);
 
-  var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;	
+  var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
   // camera attributes
-  var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1; 
+  var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1;
   var FAR = 1000;
   // set up camera
   camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
@@ -66,14 +66,24 @@ function init() {
   //stats.domElement.style.left = '0px';
   //stats.domElement.style.zIndex = 100;
   //$('#container').append(stats.domElement);
+  //
+  buildShaderPasses();
 
+
+  animate();
+};
+
+function buildShaderPasses() {
+  if (scene == null) {
+    return;
+  }
   var render_params = { minFilter: THREE.LinearFilter, 
     magFilter: THREE.LinearFilter, format: THREE.RGBFormat, 
     stencilBufer: false };
-  ocl_render_target = new THREE.WebGLRenderTarget( SCREEN_WIDTH/2, 
-      SCREEN_HEIGHT/2, render_params );
-  var glow_render_target = new THREE.WebGLRenderTarget( SCREEN_WIDTH/2, 
-      SCREEN_HEIGHT/2, render_params );
+  ocl_render_target = new THREE.WebGLRenderTarget( window.innerWidth/2, 
+      window.innerHeight/2, render_params );
+  var glow_render_target = new THREE.WebGLRenderTarget( window.innerWidth/2, 
+      window.innerHeight/2, render_params );
 
   var normal_render = new THREE.RenderPass( scene, camera );
   var ocl_render = new THREE.RenderPass( oclscene, camera );
@@ -88,7 +98,7 @@ function init() {
 
   var horiz_blur = new THREE.ShaderPass(THREE.HorizontalBlurShader);
   var vert_blur = new THREE.ShaderPass(THREE.VerticalBlurShader);
-  
+
   horiz_blur.uniforms[ "h" ].value = 5 / window.innerWidth;
   vert_blur.uniforms[ "v" ].value = 5 / window.innerHeight;
 
@@ -114,11 +124,11 @@ function init() {
   add_glow.uniforms['tDiffuse2'].value = glowcomposer.renderTarget1;
   //add_gr.renderToScreen = true;
 
-  var render_target = new THREE.WebGLRenderTarget(SCREEN_WIDTH, SCREEN_HEIGHT, 
-      render_params);
+  var render_target = new THREE.WebGLRenderTarget(window.innerWidth, 
+      window.innerHeight, render_params);
 
   finalcomposer = new THREE.EffectComposer(renderer);
-  
+
   film_pass = new THREE.ShaderPass(THREE.FilmShader);
   film_pass.uniforms['grayscale'].value = 0;
   film_pass.uniforms['sCount'].value = 750;
@@ -130,17 +140,21 @@ function init() {
   static_pass.uniforms['size'].value = 10.0;
 
   //static_pass.renderToScreen = true;
-  film_pass.renderToScreen = true;
+  if (game.started) {
+    film_pass.renderToScreen = true;
+  }
 
   finalcomposer.addPass(normal_render);
   finalcomposer.addPass(add_gr);
   finalcomposer.addPass(add_glow);
   finalcomposer.addPass(add_glow);
   finalcomposer.addPass(film_pass);
-  //finalcomposer.addPass(static_pass);
+  if (!game.started) {
+    static_pass.renderToScreen = true;
+    finalcomposer.addPass(static_pass);
+  }
 
-  animate();
-};
+}
 
 function animate()  {
   requestAnimationFrame( animate );
