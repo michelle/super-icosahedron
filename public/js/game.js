@@ -36,8 +36,8 @@ function Game() {
   this.left_vec = new THREE.Vector3(-1,0,0);
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
 
-  // Hard-coded for now to white.
-  this.color_theme = [255, 255, 255];
+  // Hard-coded for now to black.
+  this.color_theme = [0,0,0];
 };
 
 /**
@@ -49,12 +49,12 @@ Game.prototype.textureExistingMeshes = function() {
     color: 0xffffff,
     map: texture
   });
-  this.occ_player_mesh.material = new THREE.MeshLambertMaterial({
-    color: 0x000000,
-    map: texture
-  });
   this.glow_player_mesh.material = new THREE.MeshLambertMaterial({
     color: 0xffffff,
+    map: texture
+  });
+  this.occ_player_mesh.material = new THREE.MeshLambertMaterial({
+    color: 0x000000,
     map: texture
   });
 };
@@ -144,6 +144,7 @@ Game.prototype.start = function() {
   console.log('Start game');
   this.started = true;
   this.score = 0;
+  this.color_theme = [0,0,0];
 
   this.keyState = {};
   this.attachKeyListeners();
@@ -151,6 +152,12 @@ Game.prototype.start = function() {
   if (this.stream) {
     this.streamPosition();
   }
+
+  if (window.vlight) {
+    vlight.material = new THREE.MeshBasicMaterial({
+      color:0xffffff });
+  }
+ 
   this.i0 = setInterval(this.updateScore.bind(this), 1000);
 };
 
@@ -161,14 +168,17 @@ Game.prototype.updateScore = function() {
 
 Game.prototype.end = function() {
   // 2 second immunity;
-  if (this.started && this.score > 2) {
+  if (this.started && this.score > 1) {
     this.user.die(this.score);
     vlight.material = new THREE.MeshBasicMaterial({
       color:0xAA0114 });
+    this.color_theme = [0, 255, 255];
     clearInterval(this.i0);
     clearTimeout(this.t0);
     clearTimeout(this.t1);
     this.started = false;
+
+    this.promptRestart();
   }
 };
 
@@ -319,7 +329,7 @@ Game.prototype.restCones = function() {
  */
 Game.prototype.brightenBackground = function() {
   $('#container').stop().animate({
-    'backgroundColor':  this.randomColor([0,0,0])
+    'backgroundColor':  this.randomColor()
   }, 500);
 };
 
@@ -352,4 +362,15 @@ Game.prototype.randomColor = function(rgb) {
   var hexstring = r.toString(16) + g.toString(16) + b.toString(16);
   hexstring = rgb ? '#' + hexstring : '0x' + hexstring;
   return rgb ? hexstring : parseInt(hexstring, 16);
+};
+
+/**
+ * Prompt user to restart after a fail.
+ */
+Game.prototype.promptRestart = function() {
+  var self = this;
+  $('#restart').show();
+  $('#restart').click(function() {
+    self.start();
+  });
 };
