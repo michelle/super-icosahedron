@@ -4,8 +4,10 @@ function SquareCone(length, size, iso_point) {
   this.length = length;
   this.size = size;
 
+  var test_texture = THREE.ImageUtils.loadTexture( 'images/test.jpg' );
+
   this.mesh = new THREE.Mesh(this.geometry,
-      new THREE.MeshLambertMaterial( { color: 0x00ff00 }));
+      new THREE.MeshLambertMaterial( { map: test_texture }));
   this.ocl_mesh = new THREE.Mesh(this.ocl_geometry,
       new THREE.MeshBasicMaterial( { color: 0x000000 }));
 
@@ -77,6 +79,37 @@ function SquareConeGeometry(length, size, iso_point) {
     new THREE.Vector3(size, -size, length),
     new THREE.Vector3(size, size, length)
       ];
+
+  this.faceVertexUvs[0].push([
+      new THREE.UV(0, 0),
+      new THREE.UV(0, 0),
+      new THREE.UV(0, 0)
+      ]);
+  this.faceVertexUvs[0].push([
+      new THREE.UV(0, 0),
+      new THREE.UV(0, 0),
+      new THREE.UV(0, 0)
+      ]);
+  this.faceVertexUvs[0].push([
+      new THREE.UV(0, 0),
+      new THREE.UV(0, 0),
+      new THREE.UV(0, 0)
+      ]);
+  this.faceVertexUvs[0].push([
+      new THREE.UV(0, 0),
+      new THREE.UV(0, 0),
+      new THREE.UV(0, 0)
+      ]);
+  this.faceVertexUvs[0].push([
+      new THREE.UV(0, 1),
+      new THREE.UV(0, 0),
+      new THREE.UV(1, 0)
+      ]);
+  this.faceVertexUvs[0].push([
+      new THREE.UV(0, 1),
+      new THREE.UV(1, 0),
+      new THREE.UV(1, 1)
+      ]);
 
 
   this.faces = [
