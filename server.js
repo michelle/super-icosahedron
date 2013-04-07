@@ -90,20 +90,28 @@ app.get('/existing/:email', function(req, res) {
 app.post('/score', function(req, res) {
   var email = req.body.email;
   var score = req.body.highscore;
-  if (score >= highscores[highscores.length - 1]) {
+  console.log(score, highscores[highscores.length - 1])
+  if (score >= parseInt(highscores[highscores.length - 1].highscore)) {
     // INSERT INTO HS!! TODO
+    for (var i = 0, ii = highscores.length; i < ii; i += 1) {
+     var hs = highscores[i];
+     if (parseInt(hs.highscore) <= score) {
+      highscores.splice(i, 0, { highscore: score, email: email });
+      highscores.pop();
+      break;
+     }
+    }
+    console.log(highscores);
     broadcast('highscores', {
       highscores: highscores
     });
   }
 
-  // Save to db if not anon.
-  if (email.indexOf('@') !== -1) {
-    User.update({ email: email },
-      { email: email, highscore: score },
-      { upsert: true }
-    );
-  }
+  // Save to db even if anon.
+  User.update({ email: email },
+    { email: email, highscore: score },
+    { upsert: true }
+  );
 });
 
 app.listen(9000);

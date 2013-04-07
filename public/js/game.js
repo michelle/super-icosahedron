@@ -211,7 +211,8 @@ Game.prototype.updateHighscores = function(data) {
   var hs = data.highscores;
   for (var i = 0, ii = hs.length; i < ii; i += 1) {
     var $s = $('<div></div>').addClass('hs');
-    $s.text(hs[i]);
+    $s.text(hs[i].email);
+    $s.append(hs[i].highscore);
     $('#highscores').append($s);
   }
 };
