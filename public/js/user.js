@@ -86,6 +86,7 @@ User.prototype.startWithEmail = function(email) {
  * server.
  */
 User.prototype.die = function(score) {
+  console.log(score, this.highscore);
   if (score > this.highscore) {
     this.highscore = score;
     $.post('/score', this.toJSON());
@@ -99,8 +100,6 @@ User.prototype.die = function(score) {
  * TODO: also allow overriding of this.
  */
 User.prototype.storeInLocalStorage = function() {
-  console.log('storeInLocalStorage', this.toJSON());
-
   if (window.localStorage) {
     var info = JSON.stringify(this.toJSON());
     localStorage.setItem('user', info);
@@ -112,7 +111,7 @@ User.prototype.storeInLocalStorage = function() {
  */
 User.prototype.promptEmail = function() {
   var $email = $('<div></div>').attr('id', 'email');
-  var $label = $('<label></label>').attr('for', 'emailaddress').text('Email');
+  var $label = $('<label></label>').attr('for', 'emailaddress').text('Use your email to play:');
   var $input = $('<input></input>').attr('required', true).attr('id', 'emailaddress').attr('type', 'text').attr('placeholder', 'example@example.com');
 
   var self = this;
@@ -121,11 +120,13 @@ User.prototype.promptEmail = function() {
     var email;
     if (email = $input.val()) {
       self.startWithEmail(email);
+      $email.remove();
     }
   });
-  var $override = $('<button></button>').text('Go anon');
+  var $override = $('<button></button>').text('Play Anonymously');
   $override.on('click', function() {
     self.startAnyways();
+    $email.remove();
   });
 
   $email.append($label).append($input).append($button).append($override);
@@ -138,6 +139,6 @@ User.prototype.promptEmail = function() {
 User.prototype.toJSON = function() {
   return {
     email: this.email,
-    highscore: this.highscore,
+    highscore: this.highscore
   };
 };

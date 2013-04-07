@@ -101,3 +101,39 @@ img {
 #restart {
   display: none;
 }
+
+input {
+  display: block;
+  margin: 10px auto;
+  border: 0px;
+  padding: 5px 10px;
+}
+
+input:focus {
+  outline: none;
+}
+
+#email {
+  padding-bottom: 25px;
+}
+
+button {
+  cursor: pointer;
+  padding: 5px 15px;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: transparent;
+  color: rgba(255,255,255,0.6);
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 0 10px;
+}
+button:hover {
+  color: rgba(255,255,255,0.9);
+  border-color: rgba(255,255,255,0.9);
+}
+button:active {
+  color: rgba(255,255,255,1);
+  border-color: rgba(255,255,255,1);
+}
+
