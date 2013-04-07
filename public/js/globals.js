@@ -4,10 +4,10 @@
 
 Globals = {};
 
-Globals.INNER_RADIUS = 50;
-Globals.SQUARE_DIM = 5;
+Globals.INNER_RADIUS = 190;
+Globals.SQUARE_DIM = 20;
 Globals.NUM_SUBDIVS = 2;
-Globals.OUTER_RADIUS = 100;
+Globals.OUTER_RADIUS = 250;
 Globals.CAMERA_DIST = 400;
 Globals.LIGHT_DIST = 250;
 Globals.TAU = (1 + Math.sqrt(5)) / 2;
