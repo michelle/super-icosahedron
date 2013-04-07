@@ -4,8 +4,6 @@ function init() {
   scene = new THREE.Scene();
 
 
-
-
   // set the view size in pixels (custom or according to window size)
   // var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
   var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;	
@@ -20,15 +18,8 @@ function init() {
   
   controls = new THREE.TrackballControls( camera );
 
-  var dark_material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-  var wireframe_material = new THREE.MeshBasicMaterial( { color: 0x000000, 
-    wireframe: true, transparent: true } ); 
-  var multiMaterial = [ dark_material, wireframe_material ]; 
+  scene.add(game.player_mesh);
 
-  var shape = THREE.SceneUtils.createMultiMaterialObject( 
-      new THREE.IcosahedronGeometry( 500, 1 ), // radius, subdivisions
-      multiMaterial );
-  //scene.add(shape);
   var core = new Core(Globals.INNER_RADIUS,2,10);
   scene.add(core.squareCenters());
 
@@ -81,9 +72,9 @@ function maybeLocalStorage() {
  * Start.
  */
 $(document).ready(function() {
-  init();
-
   // var game, user;
   game = new Game();
   user = new User(game, maybeLocalStorage());
+
+  init();
 });
