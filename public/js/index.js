@@ -97,6 +97,7 @@ function init() {
 function animate()  {
   requestAnimationFrame( animate );
   update();
+  TWEEN.update();
   render();
   stats.update();
 };

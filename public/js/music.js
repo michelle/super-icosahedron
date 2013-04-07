@@ -31,7 +31,7 @@ function startDancer(song, time) {
   dancer.play();
 
   var kick = dancer.createKick({
-    threshold: 0.05,
+    threshold: 0.07,
     onKick: function() {
       game.activateCones();
     },

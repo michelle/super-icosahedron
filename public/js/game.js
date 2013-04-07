@@ -143,6 +143,7 @@ Game.prototype.playerMoveUp = function(amount) {
     .multiplyScalar(Globals.LIGHT_DIST);
 
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
+  //console.log(this.closest_cone_grp)
 }
 
 Game.prototype.playerMoveDown = function(amount) {
@@ -229,8 +230,10 @@ Game.prototype.activateCones = function() {
   core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
     .mesh.material = new THREE.MeshLambertMaterial({ color: this.randomColor() 
     });
-  core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
-    .setScale(Math.random());
+  for (var i = 0; i < 5; i += 1) {
+    core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
+      .startTween();
+  }
 
   this.brightenBackground();
 };
