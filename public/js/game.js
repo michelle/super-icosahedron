@@ -315,7 +315,6 @@ Game.prototype.updateOpponent = function(data) {
 
 /** Update high scores with new high scores. */
 Game.prototype.updateHighscores = function(data) {
-  console.log('updateHighscores');
   $('#highscores').empty();
   var hs = data.highscores;
   for (var i = 0, ii = hs.length; i < ii; i += 1) {
