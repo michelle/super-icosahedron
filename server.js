@@ -96,11 +96,11 @@ app.post('/score', function(req, res) {
     for (var i = highscores.length - 1, ii = 0; i >= ii; i -= 1) {
       var hs = highscores[i];
       var entry = { highscore: score, email: email };
-      if (parseInt(hs.highscore) > score) {
+      if (parseInt(hs.highscore) >= score) {
         if (hs.email === email) {
-          highscores[i + 1] = entry;
+          highscores[i] = entry;
         } else {
-          highscores.splice(i + 1, 0, { highscore: score, email: email });
+          highscores.splice(i, 0, { highscore: score, email: email });
           if (highscores.length > 25) {
             highscores.pop();
           }
