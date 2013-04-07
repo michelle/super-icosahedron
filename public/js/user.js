@@ -86,7 +86,6 @@ User.prototype.startWithEmail = function(email) {
  * server.
  */
 User.prototype.die = function(score) {
-  console.log(score, this.highscore);
   if (score > this.highscore) {
     this.highscore = score;
     $.post('/score', this.toJSON());

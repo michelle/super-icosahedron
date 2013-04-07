@@ -276,8 +276,10 @@ Game.prototype.updateOpponent = function(data) {
 
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     this.occ_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
-    if (!this.song_synced && data.playback > 3) {
-      this.updateMusic(data.song, Math.floor(data.playback));
+    if (!this.song_synced) {
+      if (data.playback > 2) {
+        this.updateMusic(data.song, Math.floor(data.playback));
+      }
       this.song_synced = true;
     }
   } else if (data.type === 'highscores') {
