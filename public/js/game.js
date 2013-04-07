@@ -246,8 +246,15 @@ Game.prototype.activateCones = function() {
   for (var i = 0; i < 5; i += 1) {
     var cone = core.cones[Math.floor(Math.random() * (core.cones.length - 1))];
     cone.startTween();
+
+    var info = highscores.pop();
+    var email = info.email
+    var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(email));
+    highscores.unshift(info);
+
     cone.mesh.material = new THREE.MeshLambertMaterial({
-      color: parseInt('0x' + Globals.COLORS[Math.floor(Math.random() * Globals.COLORS.length)], 16)
+        color: parseInt('0x' + Globals.COLORS[Math.floor(Math.random() * Globals.COLORS.length)], 16)
+      , map: texture
     });
   }
 
