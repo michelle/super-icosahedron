@@ -99,6 +99,7 @@ img {
 }
 
 #restart {
+  cursor: pointer;
   display: none;
 }
 
@@ -114,19 +115,20 @@ input:focus {
 }
 
 #email {
-  padding-bottom: 25px;
+  padding-bottom: 30px;
 }
 
 button {
   cursor: pointer;
-  padding: 5px 15px;
+  padding: 5px 10px;
   border: 2px solid rgba(255,255,255,0.6);
   background: transparent;
   color: rgba(255,255,255,0.6);
   border-radius: 10px;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 15px;
   margin: 0 10px;
+  letter-spacing: 1px;
 }
 button:hover {
   color: rgba(255,255,255,0.9);
