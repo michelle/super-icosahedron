@@ -35,8 +35,8 @@ SquareCone.prototype.setScale = function (s) {
   this.group.applyMatrix(m);
 }
 
-SquareCone.prototype.startTween = function() {
-  if (self.up) {
+SquareCone.prototype.startTween = function(down) {
+  if (self.up && !down) {
     return;
   }
   this.tween_position = { s: this.up ? 1 : 0 };
@@ -49,7 +49,7 @@ SquareCone.prototype.startTween = function() {
   tween.onComplete(function() {
     self.up = !self.up;
     if (self.up) {
-      self.startTween()
+      self.startTween(true)
     }
   });
   tween.easing(TWEEN.Easing.Elastic.InOut)
