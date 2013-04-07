@@ -50,6 +50,7 @@ function init() {
 function animate()  {
   requestAnimationFrame( animate );
   update();
+  TWEEN.update();
   render();
   //controls.update();
   stats.update();

@@ -35,6 +35,18 @@ SquareCone.prototype.setScale = function (s) {
   this.group.applyMatrix(m);
 }
 
+SquareCone.prototype.startTween = function() {
+  this.tween_position = { s: 0 };
+  this.tween_target = { s: 1 };
+  var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 500);
+  var self = this;
+  tween.onUpdate(function() {
+    self.setScale(self.tween_position.s);
+  });
+  tween.easing(TWEEN.Easing.Elastic.InOut)
+  tween.start();
+}
+
 
 function SquareConeGeometry(length, size, iso_point) {
   THREE.Geometry.call(this);
