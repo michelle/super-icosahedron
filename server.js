@@ -16,7 +16,9 @@ function broadcast(type, data) {
   data.type = type;
   for (var i = 0, ii = stream_labels.length; i < ii; i += 1) {
     var s = streams[stream_labels[i]];
-    s.write(data);
+    if (s.email !== data.id) {
+      s.write(data);
+    }
   }
 };
 
@@ -42,10 +44,11 @@ server.on('connection', function(client) {
     streamCount += 1;
 
     stream.on('data', function(data) {
+      if (data.id) {
+        stream.email = data.id;
+      }
       console.log('Received data:', data);
-      //if (data.coordinates && data.identifier) {
-        broadcast('opponent', data);
-      //}
+      broadcast('opponent', data);
     });
     stream.on('close', function() {
       if (streams[streamId]) {

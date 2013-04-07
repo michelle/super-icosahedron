@@ -57,6 +57,20 @@ Game.prototype.keyLoop = function() {
 };
 
 /**
+ * Stream current position.
+ */
+Game.prototype.streamPosition = function() {
+  var pos = this.player_mesh.position;
+  this.stream.write({
+    id: this.user.email,
+    coordinates: [pos.x, pos.y, pos.z],
+    song: $audio.attr('src'),
+    playback: $audio[0].currentTime
+  });
+  setTimeout(this.streamPosition.bind(this), 500);
+};
+
+/**
  * Set up BinaryJS stream.
  */
 Game.prototype.setupStreams = function() {
@@ -65,16 +79,9 @@ Game.prototype.setupStreams = function() {
   var self = this;
   client.on('open', function() {
     self.stream = client.createStream();
-    self.stream.on('data', self.updateOpponent);
+    self.stream.on('data', self.updateOpponent.bind(self));
+    self.streamPosition();
   });
-};
-
-/**
- * Updates opponent's location in map.
- */
-Game.prototype.updateOpponent = function(data) {
-  // TODO
-  console.log(data);
 };
 
 /**

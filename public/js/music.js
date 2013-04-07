@@ -3,10 +3,11 @@ function startDancer(song, time) {
   if (!!window.dancer) {
     dancer.pause();
     dancer = null;
+    $audio = null;
   }
 
   window.dancer = new Dancer();
-  var $audio = $('<audio></audio>');
+  window.$audio = $('<audio></audio>');
   $audio.attr('src', song);
 
   // Seek to time in track.

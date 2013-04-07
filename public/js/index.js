@@ -30,7 +30,6 @@ function init() {
   scene.add(core.squareCenters());
   scene.add(core.group);
 
-
   var axes = new THREE.AxisHelper(100);
   scene.add( axes );
 
