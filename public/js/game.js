@@ -43,7 +43,6 @@ Game.prototype.attachKeyListeners = function() {
  * Handle WASD, arrow keys.
  */
 Game.prototype.keyLoop = function() {
-  console.log(1);
   var move_amount = 0.03;
   if (this.keyState[65] || this.keyState[37]) {
     this.playerMoveLeft(move_amount);
@@ -198,6 +197,8 @@ Game.prototype.activateCones = function() {
     });
   core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
     .setScale(Math.random());
+
+  this.brightenBackground();
 };
 
 /**
@@ -205,27 +206,45 @@ Game.prototype.activateCones = function() {
  */
 Game.prototype.restCones = function() {
   // TODO
+  this.dimBackground();
+};
+
+/**
+ * Brighten background color.
+ */
+Game.prototype.brightenBackground = function() {
+  $('#container').stop().animate({
+    'backgroundColor':  this.randomColor([0,0,0])
+  }, 500);
+};
+
+/**
+ * Darken background color.
+ */
+Game.prototype.dimBackground = function() {
 };
 
 /**
  * Generates random hex color.
  */
-Game.prototype.randomColor = function() {
+Game.prototype.randomColor = function(rgb) {
   function getRandomValue() {
     return Math.floor(Math.random() * (256 + 1));
   }
   var r = getRandomValue();
   var g = getRandomValue();
   var b = getRandomValue();
+  var color_theme = rgb || this.color_theme;
 
-  r = (r + this.color_theme[0]) / 2;
-  g = (g + this.color_theme[1]) / 2;
-  b = (b + this.color_theme[2]) / 2;
+  r = (r + color_theme[0]) / 2;
+  g = (g + color_theme[1]) / 2;
+  b = (b + color_theme[2]) / 2;
 
   r = Math.floor(r);
   g = Math.floor(g);
   b = Math.floor(b);
 
-  var hexstring = '0x' + r.toString(16) + g.toString(16) + b.toString(16);
-  return parseInt(hexstring, 16);
+  var hexstring = r.toString(16) + g.toString(16) + b.toString(16);
+  hexstring = rgb ? '#' + hexstring : '0x' + hexstring;
+  return rgb ? hexstring : parseInt(hexstring, 16);
 };
