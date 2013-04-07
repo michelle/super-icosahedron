@@ -139,6 +139,8 @@ Game.prototype.updateScore = function() {
 Game.prototype.end = function() {
   if (this.started) {
     this.user.die(this.score);
+    vlight.material = new THREE.MeshBasicMaterial({
+      color:0xAA0114 });
     clearInterval(this.i0);
     clearTimeout(this.t0);
     clearTimeout(this.t1);
