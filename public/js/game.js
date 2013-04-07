@@ -15,7 +15,7 @@ function Game() {
   this.opponent_material = new THREE.MeshBasicMaterial( {color: 0x000000} );
   this.opponent_meshes = {};
 
-  $(document).keypress(handleKeys);
+  $(document).keydown(handleKeys);
 };
 
 /**

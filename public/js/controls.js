@@ -3,21 +3,23 @@
  */
 function handleKeys(ev) {
   var move_amount = 0.1;
-  console.log(ev.keyCode);
-  console.log(ev.charCode);
+  var kc = ev.keyCode || ev.which;
 
-  switch (String.fromCharCode(ev.keyCode)) {
-    case 'a':  // 'a'
+  switch (kc) {
+    case 65:  // 'a'
+    case 37:  // left
       game.playerMoveLeft(move_amount);
       break;
-    case 'w':  // 'w'
+    case 87:  // 'w'
+    case 38:  // up
       game.playerMoveUp(move_amount);
       break;
-    case 'd':  // 'd'
-      console.log('asdf');
+    case 68:  // 'd'
+    case 39:  // right
       game.playerMoveRight(move_amount);
       break;
-    case 's':  // 's'
+    case 83:  // 's'
+    case 40:  // down
       game.playerMoveDown(move_amount);
       break;
   }
