@@ -43,6 +43,18 @@ Globals.COLORS2 = Globals.COLORS = [
   , '736766'
 ];
 
+Globals.COLORS2 = Globals.COLORS = [
+    'A63C46'
+  , 'EBF5F2'
+  , '94BFB8'
+  , '6D9E90'
+  , '307360'
+  , '586173'
+  , 'BAD9D9'
+  , 'F25D50'
+  , 'F27D72'
+  , 'F2F2F2'
+]
 
 Globals.MUSIC_DIR = '/music/';
 Globals.MUSIC = [
