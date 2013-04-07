@@ -19,6 +19,7 @@ function init() {
   controls = new THREE.TrackballControls( camera );
 
   scene.add(game.player_mesh);
+  scene.add(game.opponent_meshes);
 
   var core = new Core(Globals.INNER_RADIUS,2,10);
   scene.add(core.squareCenters());
@@ -38,6 +39,7 @@ function init() {
   stats.domElement.style.zIndex = 100;
   $('#container').append(stats.domElement);
 
+console.log(scene);
   animate();
 };
 

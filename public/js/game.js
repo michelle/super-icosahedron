@@ -9,6 +9,10 @@ function Game() {
         new THREE.MeshBasicMaterial( {color: 0xffffff }));
   this.updatePlayerPosition([Math.random() * Math.PI * 2, 0]);
   this.opponent_group = new THREE.Object3D();
+
+  this.opponent_geometry = new THREE.CubeGeometry(4,4,4);
+  this.opponent_material = new THREE.MeshBasicMaterial( {color: 0x000000} );
+  this.opponent_meshes = {};
 };
 
 /**
@@ -62,4 +66,30 @@ Game.prototype.updatePlayerPosition = function(pos) {
       Globals.OUTER_RADIUS * Math.cos(theta));
   console.log(cart_coord);
   this.player_mesh.position.set(cart_coord.x, cart_coord.y, cart_coord.z);
-}
+};
+
+/**
+ * Update opponent's position
+ */
+Game.prototype.updateOpponent = function(data) {
+  if (data.type === 'opponent') {
+    var coord = data.coordinates;
+    var id = data.id;
+    var theta = coord[0];
+    var phi = coord[1];
+    if (!this.opponent_meshes[id]) {
+      this.opponent_meshes[id] = new THREE.Mesh(this.opponent_geometry,
+          this.opponent_material);
+      scene.add(this.opponent_meshes[id]);
+    }
+
+    var cart_coord = new THREE.Vector3(
+        Globals.OUTER_RADIUS * Math.sin(theta) * Math.cos(phi),
+        Globals.OUTER_RADIUS * Math.sin(theta) * Math.sin(phi),
+        Globals.OUTER_RADIUS * Math.cos(theta));
+
+    this.opponent_meshes[id].position.set(cart_coord.x, cart_coord.y, 
+        cart_coord.z);
+  }
+
+};
