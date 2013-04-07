@@ -135,6 +135,10 @@ function buildShaderPasses() {
   film_pass.uniforms['sIntensity'].value = 1.0;
   film_pass.uniforms['sIntensity'].value = 1.0;
 
+  var fxaa_pass = new THREE.ShaderPass(THREE.FXAAShader);
+  fxaa_pass.uniforms['resolution'].value.set(1/window.innerWidth,
+      1/window.innerHeight);
+
   static_pass = new THREE.ShaderPass(THREE.StaticShader);
   static_pass.uniforms['amount'].value = 0.1;
   static_pass.uniforms['size'].value = 10.0;
@@ -146,6 +150,7 @@ function buildShaderPasses() {
 
   finalcomposer.addPass(normal_render);
   finalcomposer.addPass(add_gr);
+  finalcomposer.addPass(fxaa_pass);
   finalcomposer.addPass(add_glow);
   finalcomposer.addPass(add_glow);
   finalcomposer.addPass(film_pass);
