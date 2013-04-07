@@ -3,6 +3,12 @@ var stats;
 function init() {
   scene = new THREE.Scene();
 
+  // create a light
+  var light = new THREE.PointLight(0xffffff);
+  light.position.set(0,250,0);
+  scene.add(light);
+  var ambientLight = new THREE.AmbientLight(0x111111);
+  // scene.add(ambientLight);
 
   // set the view size in pixels (custom or according to window size)
   // var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
@@ -23,6 +29,7 @@ function init() {
 
   var core = new Core(Globals.INNER_RADIUS,2,10);
   scene.add(core.squareCenters());
+  scene.add(core.group);
 
 
   var axes = new THREE.AxisHelper(100);

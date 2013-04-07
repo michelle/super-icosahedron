@@ -28,25 +28,26 @@ SquareCone.prototype = Object.create( THREE.Geometry.prototype );
 function Core(radius, subdivs, sq_dim) {
   this.group = new THREE.Object3D();
   this.iso_points = (new THREE.IcosahedronGeometry(1,subdivs)).vertices;
+  console.log(this.iso_points);
   this.radius = radius;
 
   for (var i = 0; i < this.iso_points.length; i++) {
-    var z_axis = new THREE.Vector3(0,0,1);
     var n_g = new THREE.Object3D();
-    var test_material = new THREE.MeshLambertMaterial({ color: 0xffffff });
-    var squarecone_geo = new SquareCone(100,10);
-    var shape = new THREE.Mesh(squarecone_geo, test_material);
-    n_g.add(shape);
-    var mat = new THREE.Matrix4();
-    var rot_axis = new THREE.Vector3();
-    rot_axis.crossVectors(z_axis, this.iso_points[i].normalize());
-    rot_axis.normalize();
+    n_g.add(new THREE.Mesh(new SquareCone(50,5),
+          new THREE.MeshLambertMaterial( { color: 0x00ff00 })));
+    var cur_iso_point = this.iso_points[i].clone().normalize();
+    var theta = Math.acos(cur_iso_point.z);
+    var phi = Math.atan2(cur_iso_point.y, cur_iso_point.x);
 
-    var rot_angle = z_axis.dot(this.iso_points[i]);
+    var m1 = new THREE.Matrix4();
+    var m2 = new THREE.Matrix4();
+    m1.makeRotationY(theta);
+    m2.makeRotationX(-phi);
 
+    var m = new THREE.Matrix4();
+    m.multiplyMatrices(m1,m2);
 
-    mat.makeRotationAxis(rot_axis, rot_angle);
-    n_g.applyMatrix(mat);
+    n_g.applyMatrix(m);
     this.group.add(n_g);
   }
 }
