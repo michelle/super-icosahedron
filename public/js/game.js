@@ -21,7 +21,40 @@ function Game() {
   // Hard-coded for now to white.
   this.color_theme = [255, 255, 255];
 
-  $(document).keydown(handleKeys);
+  this.keyState = {};
+  this.attachKeyListeners();
+  this.keyLoop();
+};
+
+/**
+ * Attach key handlers.
+ */
+Game.prototype.attachKeyListeners = function() {
+  var self = this;
+  window.addEventListener('keydown', function(e) {
+    self.keyState[e.keyCode || e.which] = true;
+  });
+  window.addEventListener('keyup', function(e) {
+    self.keyState[e.keyCode || e.which] = false;
+  });
+};
+
+/**
+ * Handle WASD, arrow keys.
+ */
+Game.prototype.keyLoop = function() {
+  console.log(1);
+  var move_amount = 0.03;
+  if (this.keyState[65] || this.keyState[37]) {
+    this.playerMoveLeft(move_amount);
+  } else if (this.keyState[87] || this.keyState[38]) {
+    this.playerMoveUp(move_amount);
+  } else if (this.keyState[68] || this.keyState[39]) {
+    this.playerMoveRight(move_amount);
+  } else if (this.keyState[83] || this.keyState[40]) {
+    this.playerMoveDown(move_amount);
+  }
+  setTimeout(this.keyLoop.bind(this), 10);
 };
 
 /**

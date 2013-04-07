@@ -51,13 +51,14 @@ console.log(scene);
 
 function animate()  {
   requestAnimationFrame( animate );
-  render();
   update();
+  render();
   //controls.update();
   stats.update();
 };
 
 function update() {
+  
 };
 
 function render() {	
