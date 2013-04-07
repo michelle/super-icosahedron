@@ -72,7 +72,7 @@ SquareCone.prototype.startTween = function(down) {
       self.startTween(true)
     }
   });
-  tween.easing(TWEEN.Easing.Elastic.InOut)
+  tween.easing(TWEEN.Easing.Elastic.In)
   tween.start();
 }
 
