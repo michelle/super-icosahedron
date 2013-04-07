@@ -8,7 +8,7 @@ function Game() {
 
   this.player_mesh = new THREE.Mesh(new THREE.CubeGeometry(2,2,2),
         new THREE.MeshBasicMaterial( {color: 0xffffff }));
-  this.player_mesh.position.set(Globals.OUTER_RADIUS,0,0);
+  this.player_mesh.position.set(0,0,Globals.OUTER_RADIUS);
   this.opponent_group = new THREE.Object3D();
 
   this.opponent_geometry = new THREE.CubeGeometry(4,4,4);
@@ -82,6 +82,7 @@ Game.prototype.playerMoveUp = function(amount) {
   camera.up = this.up_vec;
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
+
 
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
 }
