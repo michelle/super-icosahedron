@@ -33,6 +33,8 @@ User.prototype.setGravatarImage = function($d) {
     $d.html($img);
   }
 
+  this.storeInLocalStorage();
+
   // We're ready to start.
   this.game.start();
 };
@@ -77,6 +79,8 @@ User.prototype.die = function(score) {
     this.highscore = score;
     $.post('/score', this.toJSON());
   };
+
+  this.storeInLocalStorage();
 
   this.storeInLocalStorage();
 };
