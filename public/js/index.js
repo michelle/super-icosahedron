@@ -81,7 +81,7 @@ function maybeLocalStorage() {
  */
 $(document).ready(function() {
   // var game, user;
-  core = new Core(Globals.INNER_RADIUS,2,10);
+  core = new Core(Globals.INNER_RADIUS,Globals.NUM_SUBDIVS,Globals.SQUARE_DIM);
   game = new Game();
   user = new User(game, maybeLocalStorage());
 

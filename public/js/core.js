@@ -31,12 +31,14 @@ function Core(radius, subdivs, sq_dim) {
   this.iso_points = (new THREE.IcosahedronGeometry(1,subdivs)).vertices;
   console.log(this.iso_points);
   this.radius = radius;
+  this.sq_dim = sq_dim;
   this.cones = [];
 
   for (var i = 0; i < this.iso_points.length; i++) {
     var n_g = new THREE.Object3D();
     var cur_iso_point = this.iso_points[i].clone().normalize();
-    var cur_cone = new THREE.Mesh(new SquareCone(50,5,cur_iso_point),
+    var cur_cone = new THREE.Mesh(new SquareCone(this.radius,
+          this.sq_dim,cur_iso_point),
           new THREE.MeshLambertMaterial( { color: 0x00ff00 }));
     n_g.add(cur_cone);
     var theta = Math.atan2(cur_iso_point.x, cur_iso_point.z);
