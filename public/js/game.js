@@ -17,6 +17,9 @@ function Game() {
   this.up_vec = new THREE.Vector3(0,1,0);
   this.left_vec = new THREE.Vector3(-1,0,0);
 
+  // Hard-coded for now to white.
+  this.color_theme = [255, 255, 255];
+
   $(document).keydown(handleKeys);
 };
 
@@ -146,7 +149,7 @@ Game.prototype.updateMusic = function(song) {
  * Kick.
  */
 Game.prototype.activateCones = function() {
-  core.cones[Math.floor(Math.random() * (core.cones.length - 1))].material = new THREE.MeshLambertMaterial({ color: 0x000000 });
+  core.cones[Math.floor(Math.random() * (core.cones.length - 1))].material = new THREE.MeshLambertMaterial({ color: this.randomColor() });
 };
 
 /**
@@ -154,4 +157,27 @@ Game.prototype.activateCones = function() {
  */
 Game.prototype.restCones = function() {
   // TODO
+};
+
+/**
+ * Generates random hex color.
+ */
+Game.prototype.randomColor = function() {
+  function getRandomValue() {
+    return Math.floor(Math.random() * (256 + 1));
+  }
+  var r = getRandomValue();
+  var g = getRandomValue();
+  var b = getRandomValue();
+
+  r = (r + this.color_theme[0]) / 2;
+  g = (g + this.color_theme[1]) / 2;
+  b = (b + this.color_theme[2]) / 2;
+
+  r = Math.floor(r);
+  g = Math.floor(g);
+  b = Math.floor(b);
+
+  var hexstring = '0x' + r.toString(16) + g.toString(16) + b.toString(16);
+  return parseInt(hexstring, 16);
 };
