@@ -285,6 +285,20 @@ Game.prototype.updateOpponent = function(data) {
       glowscene.add(this.glow_opponent_meshes[id]);
     }
 
+    // Timeout for removing opponents.
+    if (this.opponent_meshes[id].timeout) {
+      clearTimeout(this.opponent_meshes[id].timeout);
+    }
+    var self = this;
+    this.opponent_meshes[id].timeout = setTimeout(function() {
+      scene.remove(self.opponent_meshes[id]);
+      oclscene.remove(self.occ_opponent_meshes[id]);
+      glowscene.remove(self.glow_opponent_meshes[id]);
+      delete self.opponent_meshes[id];
+      delete self.occ_opponent_meshes[id];
+      delete self.glow_opponent_meshes[id];
+    }, 2000);
+
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     this.occ_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     this.glow_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
