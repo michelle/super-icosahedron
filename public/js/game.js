@@ -297,7 +297,7 @@ Game.prototype.updateOpponent = function(data) {
       delete self.opponent_meshes[id];
       delete self.occ_opponent_meshes[id];
       delete self.glow_opponent_meshes[id];
-    }, 2000);
+    }, 5000);
 
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     this.occ_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
