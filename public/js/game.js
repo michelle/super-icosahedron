@@ -230,7 +230,7 @@ Game.prototype.activateCones = function() {
   core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
     .mesh.material = new THREE.MeshLambertMaterial({ color: this.randomColor() 
     });
-  for (var i = 0; i < 10; i += 1) {
+  for (var i = 0; i < 5; i += 1) {
     core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
       .startTween();
   }

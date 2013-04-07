@@ -36,7 +36,8 @@ SquareCone.prototype.setScale = function (s) {
 }
 
 SquareCone.prototype.startTween = function(down) {
-  if (self.up && !down) {
+  console.log(this.up, down);
+  if (this.up && !down) {
     return;
   }
   this.tween_position = { s: this.up ? 1 : 0 };
