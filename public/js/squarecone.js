@@ -1,13 +1,18 @@
 function SquareCone(length, size, iso_point) {
   this.geometry = new SquareConeGeometry(length, size, iso_point);
+  this.ocl_geometry = new SquareConeGeometry(length, size, iso_point);
   this.length = length;
   this.size = size;
 
   this.mesh = new THREE.Mesh(this.geometry,
       new THREE.MeshLambertMaterial( { color: 0x00ff00 }));
+  this.ocl_mesh = new THREE.Mesh(this.ocl_geometry,
+      new THREE.MeshBasicMaterial( { color: 0x000000 }));
 
   this.group = new THREE.Object3D();
+  this.ocl_group = new THREE.Object3D();
   this.group.add(this.mesh);
+  this.ocl_group.add(this.ocl_mesh);
 
   this.placement_matrix = new THREE.Matrix4();
   var m1 = new THREE.Matrix4();
@@ -21,11 +26,15 @@ function SquareCone(length, size, iso_point) {
   // how the heck do i set a matrix?!
   this.group.matrix = new THREE.Matrix4();
   this.group.applyMatrix(this.placement_matrix);
+  this.ocl_group.matrix = new THREE.Matrix4();
+  this.ocl_group.applyMatrix(this.placement_matrix);
 }
 
 SquareCone.prototype.setScale = function (s) {
   this.group.matrix = new THREE.Matrix4();
   this.group.applyMatrix(this.placement_matrix);
+  this.ocl_group.matrix = new THREE.Matrix4();
+  this.ocl_group.applyMatrix(this.placement_matrix);
   var m = new THREE.Matrix4();
   var min_s = 1;
   var max_s = Globals.OUTER_RADIUS/Globals.INNER_RADIUS;
@@ -33,6 +42,7 @@ SquareCone.prototype.setScale = function (s) {
   var upd_s = s*s_range + min_s;
   m.makeScale(upd_s, upd_s, upd_s);
   this.group.applyMatrix(m);
+  this.ocl_group.applyMatrix(m);
 }
 
 
