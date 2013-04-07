@@ -29,7 +29,7 @@ function Game() {
   this.occ_player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
   this.opponent_group = new THREE.Object3D();
 
-  this.opponent_material = new THREE.MeshLambertMaterial( {color: 0x000000} );
+  this.opponent_material = new THREE.MeshLambertMaterial( {color: 0x3BB9FF} );
   this.opponent_meshes = {};
   this.occ_opponent_meshes = {};
   this.up_vec = new THREE.Vector3(0,1,0);
