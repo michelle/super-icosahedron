@@ -20,10 +20,6 @@ function Game() {
 
   // Hard-coded for now to white.
   this.color_theme = [255, 255, 255];
-
-  this.keyState = {};
-  this.attachKeyListeners();
-  this.keyLoop();
 };
 
 /**
@@ -74,13 +70,15 @@ Game.prototype.streamPosition = function() {
  * Set up BinaryJS stream.
  */
 Game.prototype.setupStreams = function() {
-  var client = new BinaryClient('ws://localhost:9000');
+  var client = new BinaryClient('ws://10.22.35.35:9000');
 
   var self = this;
   client.on('open', function() {
     self.stream = client.createStream();
     self.stream.on('data', self.updateOpponent.bind(self));
-    self.streamPosition();
+    if (self.started) {
+      self.streamPosition();
+    }
   });
 };
 
@@ -99,6 +97,13 @@ Game.prototype.start = function() {
   // TODO: CANNOT start until this.stream exists.
   console.log('Start game');
   this.started = true;
+
+  this.keyState = {};
+  this.attachKeyListeners();
+  this.keyLoop();
+  if (this.stream) {
+    self.streamPosition();
+  }
 };
 
 /**
@@ -177,10 +182,13 @@ Game.prototype.updateOpponent = function(data) {
     }
 
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
+    if (!this.song_synced) {
+      console.log(data.playback);
+      this.updateMusic(data.song, Math.floor(data.playback));
+      this.song_synced = true;
+    }
   } else if (data.type === 'highscores') {
     this.updateHighscores(data);
-  } else if (data.type === 'music') {
-    this.updateMusic(data.song);
   }
 };
 
@@ -191,8 +199,8 @@ Game.prototype.updateHighscores = function(data) {
 };
 
 /** Update music with new music. */
-Game.prototype.updateMusic = function(song) {
-  startDancer(song);
+Game.prototype.updateMusic = function(song, playback) {
+  startDancer(song, playback);
 };
 
 /**

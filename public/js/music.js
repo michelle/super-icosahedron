@@ -13,7 +13,7 @@ function startDancer(song, time) {
   // Seek to time in track.
   if (time) {
     $audio.bind('canplay', function() {
-      this.currentTime = 30;
+      this.currentTime = time;
     });
   }
 
