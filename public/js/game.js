@@ -1,6 +1,8 @@
 function Game() {
   // theta, phi.
   this.started = false;
+  this.boundKeyLoop = this.keyLoop.bind(this);
+  this.boundStreamPosition = this.streamPosition.bind(this);
 
   startDancer(0);
 
@@ -55,7 +57,14 @@ Game.prototype.keyLoop = function() {
   } else if (this.keyState[83] || this.keyState[40]) {
     this.playerMoveDown(move_amount);
   }
-  setTimeout(this.keyLoop.bind(this), 10);
+  if (this.closest_cone_grp) {
+    if (this.closest_cone_grp.up) {
+      this.end();
+    }
+  }
+  if (this.started) {
+    this.t0 = setTimeout(this.boundKeyLoop, 10);
+  }
 };
 
 /**
@@ -69,7 +78,9 @@ Game.prototype.streamPosition = function() {
     song: parseInt($audio.attr('data-song')),
     playback: $audio[0].currentTime
   });
-  setTimeout(this.streamPosition.bind(this), 500);
+  if (this.t1) {
+    this.t1 = setTimeout(this.boundStreamPosition, 500);
+  }
 };
 
 /**
@@ -111,7 +122,7 @@ Game.prototype.start = function() {
   if (this.stream) {
     this.streamPosition();
   }
-  setInterval(this.updateScore.bind(this), 1000);
+  this.i0 = setInterval(this.updateScore.bind(this), 1000);
 };
 
 Game.prototype.updateScore = function() {
@@ -120,7 +131,13 @@ Game.prototype.updateScore = function() {
 };
 
 Game.prototype.end = function() {
-  this.user.die(this.score);
+  if (this.started) {
+    this.user.die(this.score);
+    clearInterval(this.i0);
+    clearTimeout(this.t0);
+    clearTimeout(this.t1);
+    this.started = false;
+  }
 };
 
 
@@ -211,8 +228,7 @@ Game.prototype.updateOpponent = function(data) {
 
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     this.occ_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
-    if (!this.song_synced && data.playback > 1) {
-      console.log(data.playback);
+    if (!this.song_synced && data.playback > 3) {
       this.updateMusic(data.song, Math.floor(data.playback));
       this.song_synced = true;
     }

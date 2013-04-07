@@ -35,8 +35,8 @@ Core.prototype.getClosestConeGroup = function(pos) {
   //distance on sphere is given by dot product
   //so sort by the distances to appropriate iso points
   //
-  var dist_cone_grps = this.group.children.sort(function(x,y) {
-    return Math.acos(x.children[0].geometry.iso_point.dot(sph_pos)) 
-    - Math.acos(y.children[0].geometry.iso_point.dot(sph_pos))});
+  var dist_cone_grps = this.cones.sort(function(x,y) {
+    return Math.acos(x.geometry.iso_point.dot(sph_pos)) 
+    - Math.acos(y.geometry.iso_point.dot(sph_pos))});
   return dist_cone_grps[0];
 }
