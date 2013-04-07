@@ -268,17 +268,25 @@ Game.prototype.updateOpponent = function(data) {
           Globals.OPPONENT_SIZE,Globals.OPPONENT_SIZE);
       var occ_opponent_geometry = new THREE.CubeGeometry(Globals.OPPONENT_SIZE,
           Globals.OPPONENT_SIZE,Globals.OPPONENT_SIZE);
+      var glow_opponent_geometry = new THREE.CubeGeometry(Globals.OPPONENT_SIZE,
+          Globals.OPPONENT_SIZE,Globals.OPPONENT_SIZE);
       this.opponent_meshes[id] = new THREE.Mesh(opponent_geometry,
           new THREE.MeshLambertMaterial({ color: this.opponent_color, 
             map: texture }));
       this.occ_opponent_meshes[id] = new THREE.Mesh(occ_opponent_geometry,
           new THREE.MeshBasicMaterial({color: 0x000000}));
+      this.glow_opponent_meshes[id] = new THREE.Mesh(glow_opponent_geometry,
+          new THREE.MeshBasicMaterial({ color: this.opponent_color, 
+            map: texture }));
+
       scene.add(this.opponent_meshes[id]);
       oclscene.add(this.occ_opponent_meshes[id]);
+      glowscene.add(this.glow_opponent_meshes[id]);
     }
 
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     this.occ_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
+    this.glow_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     if (!this.song_synced) {
       if (data.playback > 2) {
         this.updateMusic(data.song, Math.floor(data.playback));
