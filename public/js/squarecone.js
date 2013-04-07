@@ -64,7 +64,7 @@ SquareCone.prototype.startTween = function(down) {
   }
   this.tween_position = { s: this.up ? 1 : 0 };
   this.tween_target = { s: this.up ? 0 : 1 };
-  var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 1000);
+  var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 1200);
   var self = this;
   tween.onUpdate(function() {
     self.setScale(self.tween_position.s);

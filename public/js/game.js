@@ -313,7 +313,7 @@ Game.prototype.updateMusic = function(song, playback) {
  * Kick.
  */
 Game.prototype.activateCones = function() {
-  for (var i = 0; i < 5; i += 1) {
+  for (var i = 0; i < 4; i += 1) {
     var cone = core.cones[Math.floor(Math.random() * (core.cones.length - 1))];
     cone.startTween();
 
