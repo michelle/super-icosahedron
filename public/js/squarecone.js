@@ -35,9 +35,9 @@ SquareCone.prototype.setScale = function (s) {
   this.group.applyMatrix(m);
 }
 
-SquareCone.prototype.startTween = function() {
-  this.tween_position = { s: 0 };
-  this.tween_target = { s: 1 };
+SquareCone.prototype.startTween = function(rand) {
+  this.tween_position = { s: rand > .5 ? 0 : 1 };
+  this.tween_target = { s: rand > .5 ? 1 : 0 };
   var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 500);
   var self = this;
   tween.onUpdate(function() {
