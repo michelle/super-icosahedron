@@ -18,7 +18,7 @@ function User(game, user) {
  * Takes email address and optional DOM element $d and attaches the gravatar
  * image associated with email to $d.
  */
-User.prototype.setGravatarImage = function($d) {
+User.prototype.setGravatarImage = function() {
   if (!this.url) {
     var gravatar_url = 'http://www.gravatar.com/avatar/';
     var gravatar_params = '?r=pg&d=retro';
@@ -30,10 +30,8 @@ User.prototype.setGravatarImage = function($d) {
     this.url = gravatar_url + hash + gravatar_params;
   }
 
-  if ($d && $d.length) {
-    var $img = $('<img>').attr('src', this.url);
-    $d.html($img);
-  }
+  var $img = $('<img>').attr('src', this.url);
+  $('#dynamic').html($img);
 
   this.storeInLocalStorage();
 
@@ -49,7 +47,8 @@ User.prototype.startAnyways = function() {
   var self = this;
   $.get('/id', function(id) {
     if (id) {
-      self.game.start();
+      self.email = id;
+      self.setGravatarImage();
     } else {
       self.game.error('Server unavailable, try refreshing.');
     }
@@ -83,8 +82,6 @@ User.prototype.die = function(score) {
   };
 
   this.storeInLocalStorage();
-
-  this.storeInLocalStorage();
 };
 
 /**
@@ -106,12 +103,15 @@ User.prototype.storeInLocalStorage = function() {
 User.prototype.promptEmail = function() {
   var $email = $('<div></div>').attr('id', 'email');
   var $label = $('<label></label>').attr('for', 'emailaddress').text('Email');
-  var $input = $('<input></input>').attr('id', 'emailaddress').attr('type', 'text').attr('placeholder', 'example@example.com');
+  var $input = $('<input></input>').attr('required', true).attr('id', 'emailaddress').attr('type', 'text').attr('placeholder', 'example@example.com');
 
   var self = this;
   var $button = $('<button></button>').text('Start');
   $button.on('click', function() {
-    // TODO: save email and hide.
+    var email;
+    if (email = $input.val()) {
+      self.startWithEmail(email);
+    }
   });
   var $override = $('<button></button>').text('Go anon');
   $override.on('click', function() {
