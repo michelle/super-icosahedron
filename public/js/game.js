@@ -2,6 +2,8 @@ function Game() {
   // theta, phi.
   this.started = false;
 
+  startDancer(Globals.MUSIC_DIR + Globals.MUSIC[0]);
+
   this.setupStreams();
 
   this.player_mesh = new THREE.Mesh(new THREE.CubeGeometry(10,10,10),
@@ -95,6 +97,20 @@ Game.prototype.updateOpponent = function(data) {
     }
 
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
+  } else if (data.type === 'highscores') {
+    this.updateHighscores(data);
+  } else if (data.type === 'music') {
+    this.updateMusic(data.song);
   }
+};
 
+/** Update high scores with new high scores. */
+Game.prototype.updateHighscores = function(data) {
+  console.log('updateHighscores');
+  // TODO
+};
+
+/** Update music with new music. */
+Game.prototype.updateMusic = function(song) {
+  startDancer(song);
 };
