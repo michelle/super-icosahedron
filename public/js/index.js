@@ -45,7 +45,6 @@ function init() {
   stats.domElement.style.zIndex = 100;
   $('#container').append(stats.domElement);
 
-console.log(scene);
   animate();
 };
 
