@@ -14,7 +14,7 @@ function init() {
   // add the camera to the scene
   // 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
   camera.position.set(0,150,400);
-  camera.lookAt(scene.position);	
+  camera.lookAt(scene.position);
   
   controls = new THREE.TrackballControls( camera );
 
@@ -63,9 +63,9 @@ function render() {
  * Check localStorage for game info.
  */
 function maybeLocalStorage() {
-  if (window.localStorage) {
-    // TODO
-    console.log('Check local storage');
+  var user;
+  if (window.localStorage && (user = localStorage.getItem('user'))) {
+    return JSON.parse(user);
   }
   return {};
 };
