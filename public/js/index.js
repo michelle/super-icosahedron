@@ -5,7 +5,7 @@ function init() {
 
   // create a light
   light = new THREE.PointLight(0xffffff);
-  light.position.set(0,250,0);
+  light.position.set(0,0,Globals.LIGHT_DIST);
   scene.add(light);
   var ambientLight = new THREE.AmbientLight(0x111111);
   // scene.add(ambientLight);
@@ -27,7 +27,7 @@ function init() {
   scene.add(game.player_mesh);
   scene.add(game.opponent_meshes);
 
-  scene.add(core.squareCenters());
+  //scene.add(core.squareCenters());
   scene.add(core.group);
 
   var axes = new THREE.AxisHelper(100);

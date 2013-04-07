@@ -2,7 +2,7 @@ function Game() {
   // theta, phi.
   this.started = false;
 
-  startDancer(Globals.MUSIC_DIR + Globals.MUSIC[0]);
+  startDancer(0);
 
   this.setupStreams();
 
@@ -60,7 +60,7 @@ Game.prototype.streamPosition = function() {
   this.stream.write({
     id: this.user.email,
     coordinates: [pos.x, pos.y, pos.z],
-    song: $audio.attr('src'),
+    song: parseInt($audio.attr('data-song')),
     playback: $audio[0].currentTime
   });
   setTimeout(this.streamPosition.bind(this), 500);
@@ -102,7 +102,7 @@ Game.prototype.start = function() {
   this.attachKeyListeners();
   this.keyLoop();
   if (this.stream) {
-    self.streamPosition();
+    this.streamPosition();
   }
 };
 

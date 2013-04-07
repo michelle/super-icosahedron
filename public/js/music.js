@@ -1,5 +1,11 @@
 /** ====== MUSIC UTILS ====== */
 function startDancer(song, time) {
+  if (song >= Globals.MUSIC.length) {
+    song = 0;
+  }
+
+  var song_path = Globals.MUSIC_DIR + Globals.MUSIC[song];
+
   if (!!window.dancer) {
     dancer.pause();
     dancer = null;
@@ -8,7 +14,8 @@ function startDancer(song, time) {
 
   window.dancer = new Dancer();
   window.$audio = $('<audio></audio>');
-  $audio.attr('src', song);
+  $audio.attr('src', song_path);
+  $audio.attr('data-song', song);
 
   // Seek to time in track.
   if (time) {
@@ -16,6 +23,9 @@ function startDancer(song, time) {
       this.currentTime = time;
     });
   }
+  $audio[0].addEventListener('ended', function() {
+    startDancer(song + 1);
+  });
 
   dancer.load($audio[0]);
   dancer.play();
