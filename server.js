@@ -29,7 +29,7 @@ var db = require('mongoskin').db('localhost:27017/super');
 var User = db.collection('users');
 var highscores = {};
 
-User.find().sort({ highscore: 1 }).limit(25).toArray(function(err, arr) {
+User.find({}, { sort: [['highscore', -1]], limit: 25 }).toArray(function(err, arr) {
   for (var i = 0, ii = arr.length; i < ii; i += 1) {
     delete arr[i]['_id'];
   }
@@ -89,10 +89,9 @@ app.get('/existing/:email', function(req, res) {
 });
 
 app.post('/score', function(req, res) {
-  console.log(req.body);
   var email = req.body.email;
   var score = req.body.highscore;
-  console.log(score, highscores[highscores.length - 1])
+
   if (highscores.length < 25 || score >= parseInt(highscores[highscores.length - 1].highscore)) {
     for (var i = highscores.length - 1, ii = 0; i >= ii; i -= 1) {
       var hs = highscores[i];
@@ -111,7 +110,6 @@ app.post('/score', function(req, res) {
         highscores.splice(i, 1);
       }
     }
-    console.log(highscores);
     broadcast('highscores', {
       highscores: highscores
     });
@@ -119,7 +117,7 @@ app.post('/score', function(req, res) {
 
   // Save to db even if anon.
   User.update({ email: email },
-    { email: email, highscore: score },
+    { email: email, highscore: parseInt(score) },
     { upsert: true }
   );
 });

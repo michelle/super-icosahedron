@@ -86,6 +86,7 @@ User.prototype.startWithEmail = function(email) {
  * server.
  */
 User.prototype.die = function(score) {
+  console.log(score, this.highscore);
   if (score > this.highscore) {
     this.highscore = score;
     $.post('/score', this.toJSON());
@@ -99,8 +100,6 @@ User.prototype.die = function(score) {
  * TODO: also allow overriding of this.
  */
 User.prototype.storeInLocalStorage = function() {
-  console.log('storeInLocalStorage', this.toJSON());
-
   if (window.localStorage) {
     var info = JSON.stringify(this.toJSON());
     localStorage.setItem('user', info);
@@ -140,6 +139,6 @@ User.prototype.promptEmail = function() {
 User.prototype.toJSON = function() {
   return {
     email: this.email,
-    highscore: this.highscore,
+    highscore: this.highscore
   };
 };
