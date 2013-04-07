@@ -48,8 +48,7 @@ function init() {
   $('#container').append(stats.domElement);
 
   animate();
-}
-
+};
 
 function animate()  {
   requestAnimationFrame( animate );
@@ -57,13 +56,34 @@ function animate()  {
   update();
   controls.update();
   stats.update();
-}
+};
 
 function update() {
-}
+};
 
 function render() {	
   renderer.render( scene, camera );
-}
+};
 
-$(document).ready(init);
+
+/**
+ * Check localStorage for game info.
+ */
+function maybeLocalStorage() {
+  if (window.localStorage) {
+    // TODO
+    console.log('Check local storage');
+  }
+  return {};
+};
+
+/**
+ * Start.
+ */
+$(document).ready(function() {
+  init();
+
+  // var game, user;
+  game = new Game();
+  user = new User(game, maybeLocalStorage());
+});
