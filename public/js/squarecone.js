@@ -36,6 +36,9 @@ SquareCone.prototype.setScale = function (s) {
 }
 
 SquareCone.prototype.startTween = function() {
+  if (self.up) {
+    return;
+  }
   this.tween_position = { s: this.up ? 1 : 0 };
   this.tween_target = { s: this.up ? 0 : 1 };
   var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 1000);
@@ -45,7 +48,9 @@ SquareCone.prototype.startTween = function() {
   });
   tween.onComplete(function() {
     self.up = !self.up;
-    self.startTween()
+    if (self.up) {
+      self.startTween()
+    }
   });
   tween.easing(TWEEN.Easing.Elastic.InOut)
   tween.start();
