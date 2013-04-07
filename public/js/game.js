@@ -368,8 +368,9 @@ Game.prototype.randomColor = function(rgb) {
  */
 Game.prototype.promptRestart = function() {
   var self = this;
-  $('#restart').show();
+  $('#restart').fadeIn(100);
   $('#restart').click(function() {
     self.start();
+    $(this).fadeOut(100);
   });
 };

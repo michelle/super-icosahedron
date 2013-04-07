@@ -6,7 +6,7 @@ body {
   font-family: Helvetica, Arial, 'sans-serif';
 }
 
-#myscore-wrapper, #scores, #dynamic {
+#restart, #myscore-wrapper, #scores, #dynamic {
   z-index: 999;
 }
 
@@ -80,4 +80,24 @@ img {
   color: #ff244f;
   opacity: 0.6;
   font-weight: 600;
+}
+
+#email, #restart {
+  position: relative;
+  width: 300px;
+  height: 100px;
+  margin: 0 auto;
+  margin-top: 25%;
+  border: 1px solid rgba(0,0,0,1);
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  background-color: rgba(0,0,0,0.8);
+  font-weight: 600;
+  font-size: 20px;
+  color: #ff244f;
+}
+
+#restart {
+  display: none;
 }
