@@ -36,13 +36,13 @@ function Core(radius, subdivs, sq_dim) {
     n_g.add(new THREE.Mesh(new SquareCone(50,5),
           new THREE.MeshLambertMaterial( { color: 0x00ff00 })));
     var cur_iso_point = this.iso_points[i].clone().normalize();
-    var theta = Math.acos(cur_iso_point.z);
-    var phi = Math.atan2(cur_iso_point.y, cur_iso_point.x);
+    var theta = Math.atan2(cur_iso_point.x, cur_iso_point.z);
+    var phi = Math.PI/2 - Math.acos(-cur_iso_point.y);
 
     var m1 = new THREE.Matrix4();
     var m2 = new THREE.Matrix4();
     m1.makeRotationY(theta);
-    m2.makeRotationX(-phi);
+    m2.makeRotationX(phi);
 
     var m = new THREE.Matrix4();
     m.multiplyMatrices(m1,m2);
