@@ -8,9 +8,11 @@ var server = BinaryServer({ server: app });
 var streams = {};
 var streamCount = 0;
 
-//var db = require('mongoskin').db('localhost:27017/super');
+var anonCount = 0;
 
-//var TopUser = db.collection('users');
+var db = require('mongoskin').db('localhost:27017/super');
+
+var User = db.collection('users');
 
 /**
  * Realtime stuff.
@@ -22,7 +24,7 @@ server.on('connection', function(client) {
 
     stream.on('data', function(data) {
       console.log('Received data:', data);
-      //if (data.coordinates && data.picture) {
+      //if (data.coordinates && data.identifier) {
         var stream_labels = Object.keys(streams);
         for (var i = 0, ii = stream_labels.length; i < ii; i += 1) {
           var s = streams[stream_labels[i]];
@@ -51,12 +53,22 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
 
-app.get('/', function(req, res){
-  //TopUser.find({}).toArray(function(err, users) {
+app.get('/', function(req, res) {
+  //User.find({}).toArray(function(err, users) {
     res.render('index', { top_users: res });
   //});
 });
 
+app.get('/id', function(req, res) {
+  res.send('anon' + anonCount);
+  anonCount += 1;
+});
+
+app.get('/existing/:email', function(req, res) {
+  var email = req.params.email;
+  User.findOne({ email: email }, function(err, entry) {
+    res.send(entry);
+  });
+});
+
 app.listen(9000);
-
-
