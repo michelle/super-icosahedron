@@ -33,6 +33,7 @@ function Game() {
   this.opponent_color = 0xffffff;
   this.opponent_meshes = {};
   this.occ_opponent_meshes = {};
+  this.glow_opponent_meshes = {};
   this.up_vec = new THREE.Vector3(0,1,0);
   this.left_vec = new THREE.Vector3(-1,0,0);
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
