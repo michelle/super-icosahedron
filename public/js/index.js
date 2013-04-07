@@ -161,7 +161,6 @@ function animate()  {
   update();
   TWEEN.update();
   render();
-  //stats.update();
 };
 
 function update() {

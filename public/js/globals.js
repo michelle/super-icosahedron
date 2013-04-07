@@ -67,6 +67,7 @@ Globals.COLORS2 = Globals.COLORS = [
 Globals.MUSIC_DIR = '/music/';
 Globals.MUSIC = [
     'flower.mp3'
+  , 'christmastv.mp3'
   //, 'aurora.mp3'
   , 'lamoureuse.mp3'
   , 'littletalks.mp3'
