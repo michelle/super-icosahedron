@@ -17,7 +17,7 @@ function Game() {
   this.up_vec = new THREE.Vector3(0,1,0);
   this.left_vec = new THREE.Vector3(-1,0,0);
 
-  $(document).keypress(handleKeys);
+  $(document).keydown(handleKeys);
 };
 
 /**
