@@ -14,6 +14,14 @@ function Core(radius, subdivs, sq_dim) {
   }
 }
 
+Core.prototype.stepRotation = function(theta) {
+  var mat = new THREE.Matrix4();
+  mat.makeRotationY(theta);
+  this.group.applyMatrix(mat);
+  this.ocl_group.applyMatrix(mat);
+  game.playerMoved();
+}
+
 Core.prototype.squareCenters = function() {
   var square_center_group = new THREE.Object3D();
   var test_material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
@@ -31,6 +39,10 @@ Core.prototype.squareCenters = function() {
 Core.prototype.getClosestConeGroup = function(pos) {
   //project to sphere
   var sph_pos = pos.clone().normalize();
+  var to_iso_pt_space = new THREE.Matrix4();
+  to_iso_pt_space.getInverse(this.group.matrix);
+  sph_pos.applyMatrix4(to_iso_pt_space);
+  sph_pos.normalize();
   
   //distance on sphere is given by dot product
   //so sort by the distances to appropriate iso points
@@ -38,5 +50,6 @@ Core.prototype.getClosestConeGroup = function(pos) {
   var dist_cone_grps = this.cones.sort(function(x,y) {
     return Math.acos(x.geometry.iso_point.dot(sph_pos)) 
     - Math.acos(y.geometry.iso_point.dot(sph_pos))});
+  dist_cone_grps[0].geometry.material = new THREE.MeshBasicMaterial({color:0xffffff});
   return dist_cone_grps[0];
 }

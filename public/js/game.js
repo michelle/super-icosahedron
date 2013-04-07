@@ -153,18 +153,7 @@ Game.prototype.end = function() {
 /**
  * Update a player's position
  */
-Game.prototype.playerMoveUp = function(amount) {
-  var rot_mat = new THREE.Matrix4();
-  rot_mat.makeRotationAxis(this.left_vec,amount);
-  this.player_mesh.position.applyMatrix4(rot_mat);
-  var n_up_vec = new THREE.Vector3();
-  n_up_vec.crossVectors(this.player_mesh.position, this.left_vec);
-  n_up_vec.normalize();
-  if (n_up_vec.dot(this.up_vec) < 0) {
-    n_up_vec = n_up_vec.multiplyScalar(-1);
-  }
-  this.up_vec = n_up_vec;
-  var cam_mat = new THREE.Matrix4();
+Game.prototype.playerMoved = function() {
   camera.position = (this.player_mesh.position.clone().normalize()
       .multiplyScalar(Globals.CAMERA_DIST));
   camera.up = this.up_vec;
@@ -178,7 +167,21 @@ Game.prototype.playerMoveUp = function(amount) {
     .multiplyScalar(Globals.LIGHT_DIST);
 
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
-  //console.log(this.closest_cone_grp)
+}
+Game.prototype.playerMoveUp = function(amount) {
+  var rot_mat = new THREE.Matrix4();
+  rot_mat.makeRotationAxis(this.left_vec,amount);
+  this.player_mesh.position.applyMatrix4(rot_mat);
+  var n_up_vec = new THREE.Vector3();
+  n_up_vec.crossVectors(this.player_mesh.position, this.left_vec);
+  n_up_vec.normalize();
+  if (n_up_vec.dot(this.up_vec) < 0) {
+    n_up_vec = n_up_vec.multiplyScalar(-1);
+  }
+  this.up_vec = n_up_vec;
+
+  this.playerMoved();
+
 }
 
 Game.prototype.playerMoveDown = function(amount) {
@@ -196,19 +199,8 @@ Game.prototype.playerMoveRight = function(amount) {
     n_left_vec = n_left_vec.multiplyScalar(-1);
   }
   this.left_vec = n_left_vec;
-  camera.position = (this.player_mesh.position.clone().normalize()
-      .multiplyScalar(Globals.CAMERA_DIST));
-  camera.up = this.up_vec;
-  camera.lookAt(new THREE.Vector3(0,0,0));
-  camera.updateProjectionMatrix();
 
-  this.glow_player_mesh.position = this.player_mesh.position;
-  this.occ_player_mesh.position = this.player_mesh.position;
-
-  light.position = this.player_mesh.position.clone().normalize()
-    .multiplyScalar(Globals.LIGHT_DIST);
-
-  this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
+  this.playerMoved();
 }
 
 Game.prototype.playerMoveLeft = function(amount) {

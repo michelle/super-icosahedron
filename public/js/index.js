@@ -148,7 +148,7 @@ function update() {
   shader_time += 0.1;
   film_pass.uniforms['time'].value = shader_time;
   static_pass.uniforms['time'].value = shader_time;
-  
+  core.stepRotation(0.01);
 };
 
 function render() {	
