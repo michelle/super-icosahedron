@@ -30,7 +30,7 @@ Globals.COLORS2 = [
 ];
 
 // Purple
-Globals.COLORS = [
+Globals.COLORS2 = Globals.COLORS = [
     '4D3A4C'
   , '61505E'
   , '827564'
