@@ -1,8 +1,10 @@
 var stats;
 
 function init() {
-  scene = new THREE.Scene();
   shader_time = 0;
+
+  scene = new THREE.Scene();
+  oclscene = new THREE.Scene();
 
   // create a light
   light = new THREE.PointLight(0xffffff);
@@ -21,11 +23,12 @@ function init() {
   camera.lookAt(scene.position);
 
   scene.add(game.player_mesh);
+  oclscene.add(game.occ_player_mesh);
   scene.add(game.opponent_meshes);
+  scene.add(game.occ_opponent_meshes);
 
 
   //occlusion scene for god rays
-  oclscene = new THREE.Scene();
   oclscene.add(core.ocl_group);
   scene.add(core.group);
 

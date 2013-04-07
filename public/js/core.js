@@ -2,7 +2,6 @@ function Core(radius, subdivs, sq_dim) {
   this.group = new THREE.Object3D();
   this.ocl_group = new THREE.Object3D();
   this.iso_points = (new THREE.IcosahedronGeometry(1,subdivs)).vertices;
-  console.log(this.iso_points);
   this.radius = radius;
   this.sq_dim = sq_dim;
   this.cones = [];

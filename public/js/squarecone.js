@@ -6,14 +6,17 @@ function SquareCone(length, size, iso_point) {
 
 
   var info = highscores.pop();
-  var email = info.email
+  var email = ""
+  if (info) {
+    email = info.email;
+    highscores.unshift(info);
+  }
   var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(email));
-  highscores.unshift(info);
 
   this.mesh = new THREE.Mesh(this.geometry,
     new THREE.MeshLambertMaterial( {
         color: parseInt('0x' + Globals.COLORS2[Math.floor(Math.random() * Globals.COLORS2.length)], 16)
-      , map: texture
+      , map: texture 
     })
   );
   this.ocl_mesh = new THREE.Mesh(this.ocl_geometry,

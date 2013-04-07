@@ -6,14 +6,20 @@ function Game() {
 
   this.setupStreams();
 
-  this.player_mesh = new THREE.Mesh(new THREE.CubeGeometry(2,2,2),
-        new THREE.MeshBasicMaterial( {color: 0xffffff }));
+  var player_geo = new THREE.CubeGeometry(10,10,10);
+  var occ_player_geo = new THREE.CubeGeometry(10,10,10);
+  var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl('auraxiii@gmail.com'));
+  this.player_mesh = new THREE.Mesh(player_geo,
+        new THREE.MeshLambertMaterial( {color: 0xffffff, 
+          map: texture,side: THREE.BackSide }));
+  this.occ_player_mesh = new THREE.Mesh(occ_player_geo,
+      new THREE.MeshBasicMaterial( {color: 0x000000 }));
   this.player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
   this.opponent_group = new THREE.Object3D();
 
-  this.opponent_geometry = new THREE.CubeGeometry(4,4,4);
-  this.opponent_material = new THREE.MeshBasicMaterial( {color: 0x000000} );
+  this.opponent_material = new THREE.MeshLambertMaterial( {color: 0x000000} );
   this.opponent_meshes = {};
+  this.occ_opponent_meshes = {};
   this.up_vec = new THREE.Vector3(0,1,0);
   this.left_vec = new THREE.Vector3(-1,0,0);
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
@@ -139,6 +145,8 @@ Game.prototype.playerMoveUp = function(amount) {
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
 
+  this.occ_player_mesh.position = this.player_mesh.position;
+
   light.position = this.player_mesh.position.clone().normalize()
     .multiplyScalar(Globals.LIGHT_DIST);
 
@@ -167,6 +175,8 @@ Game.prototype.playerMoveRight = function(amount) {
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
 
+  this.occ_player_mesh.position = this.player_mesh.position;
+
   light.position = this.player_mesh.position.clone().normalize()
     .multiplyScalar(Globals.LIGHT_DIST);
 
@@ -189,12 +199,18 @@ Game.prototype.updateOpponent = function(data) {
     var coord = data.coordinates;
     var id = data.id;
     if (!this.opponent_meshes[id]) {
-      this.opponent_meshes[id] = new THREE.Mesh(this.opponent_geometry,
+      var opponent_geometry = new THREE.CubeGeometry(4,4,4);
+      var occ_opponent_geometry = new THREE.CubeGeometry(4,4,4);
+      this.opponent_meshes[id] = new THREE.Mesh(opponent_geometry,
           this.opponent_material);
+      this.occ_opponent_meshes[id] = new THREE.Mesh(occ_opponent_geometry,
+          new THREE.MeshBasicMaterial({color: 0x000000}));
       scene.add(this.opponent_meshes[id]);
+      oclscene.add(this.occ_opponent_meshes[id]);
     }
 
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
+    this.occ_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     if (!this.song_synced && data.playback > 1) {
       console.log(data.playback);
       this.updateMusic(data.song, Math.floor(data.playback));
