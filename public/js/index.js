@@ -19,7 +19,7 @@ function init() {
   camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
   // add the camera to the scene
   // 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
-  camera.position.set(0,150,400);
+  camera.position.set(0,0,400);
   camera.lookAt(scene.position);
   
   controls = new THREE.TrackballControls( camera );

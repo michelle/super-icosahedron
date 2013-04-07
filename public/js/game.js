@@ -14,6 +14,8 @@ function Game() {
   this.opponent_geometry = new THREE.CubeGeometry(4,4,4);
   this.opponent_material = new THREE.MeshBasicMaterial( {color: 0x000000} );
   this.opponent_meshes = {};
+  this.up_vec = new THREE.Vector3(0,1,0);
+  this.left_vec = new THREE.Vector3(-1,0,0);
 
   $(document).keypress(handleKeys);
 };
@@ -61,8 +63,10 @@ Game.prototype.start = function() {
  */
 Game.prototype.playerMoveUp = function(amount) {
   var rot_mat = new THREE.Matrix4();
-  rot_mat.makeRotationZ(amount);
+  rot_mat.makeRotationAxis(this.left_vec,amount);
   this.player_mesh.position.applyMatrix4(rot_mat);
+  this.up_vec.crossVectors(this.player_mesh.position, this.left_vec);
+  this.up_vec.normalize();
 }
 
 Game.prototype.playerMoveDown = function(amount) {
@@ -71,8 +75,10 @@ Game.prototype.playerMoveDown = function(amount) {
 
 Game.prototype.playerMoveRight = function(amount) {
   var rot_mat = new THREE.Matrix4();
-  rot_mat.makeRotationY(amount);
+  rot_mat.makeRotationAxis(this.up_vec,amount);
   this.player_mesh.position.applyMatrix4(rot_mat);
+  this.left_vec.crossVectors(this.player_mesh.position, this.up_vec);
+  this.left_vec.normalize();
 }
 
 Game.prototype.playerMoveLeft = function(amount) {
