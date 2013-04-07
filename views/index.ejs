@@ -1,2 +1,10 @@
 <div id="container"></div>
 <div id="dynamic"></div>
+<div id="scores">
+  <div id="myscore"></div>
+  <div id="highscores">
+    <% for (var i = 0, ii = highscores.length; i < ii; i += 1) { %>
+      <div class="hs"><%= highscores[i].email %><%= highscores[i].highscore %></div>
+    <% } %>
+  </div>
+</div>

@@ -72,7 +72,7 @@ app.set('views', __dirname + '/views');
 
 
 app.get('/', function(req, res) {
-  res.render('index', { top_users: res });
+  res.render('index', { highscores: highscores });
 });
 
 app.get('/id', function(req, res) {
@@ -88,9 +88,10 @@ app.get('/existing/:email', function(req, res) {
 });
 
 app.post('/score', function(req, res) {
-  var email = req.body.identifier;
-  var score = req.body.score;
+  var email = req.body.email;
+  var score = req.body.highscore;
   if (score >= highscores[highscores.length - 1]) {
+    // INSERT INTO HS!! TODO
     broadcast('highscores', {
       highscores: highscores
     });

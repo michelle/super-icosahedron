@@ -110,6 +110,7 @@ Game.prototype.start = function() {
 
 Game.prototype.updateScore = function() {
   this.score += 1;
+  $('#myscore').text(this.score);
 };
 
 Game.prototype.end = function() {
@@ -193,7 +194,7 @@ Game.prototype.updateOpponent = function(data) {
     }
 
     this.opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
-    if (!this.song_synced) {
+    if (!this.song_synced && data.playback > 1) {
       console.log(data.playback);
       this.updateMusic(data.song, Math.floor(data.playback));
       this.song_synced = true;
@@ -206,7 +207,13 @@ Game.prototype.updateOpponent = function(data) {
 /** Update high scores with new high scores. */
 Game.prototype.updateHighscores = function(data) {
   console.log('updateHighscores');
-  // TODO
+  $('#highscores').empty();
+  var hs = data.highscores;
+  for (var i = 0, ii = hs.length; i < ii; i += 1) {
+    var $s = $('<div></div>').addClass('hs');
+    $s.text(hs[i]);
+    $('#highscores').append($s);
+  }
 };
 
 /** Update music with new music. */
