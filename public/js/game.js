@@ -248,7 +248,10 @@ Game.prototype.activateCones = function() {
     cone.startTween();
 
     var info = highscores.pop();
-    var email = info.email
+    var email = "";
+    if (info) {
+      var email = info.email;
+    }
     var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(email));
     highscores.unshift(info);
 
