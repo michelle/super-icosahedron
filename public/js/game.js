@@ -48,7 +48,7 @@ Game.prototype.textureExistingMeshes = function() {
     side: THREE.BackSide,
     map: texture
   });
-  this.glow_player_mesh.material = new THREE.MeshLambertMaterial({
+  this.glow_player_mesh.material = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     side: THREE.BackSide,
     map: texture
