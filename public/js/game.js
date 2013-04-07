@@ -97,6 +97,7 @@ Game.prototype.start = function() {
   // TODO: CANNOT start until this.stream exists.
   console.log('Start game');
   this.started = true;
+  this.score = 0;
 
   this.keyState = {};
   this.attachKeyListeners();
@@ -104,7 +105,17 @@ Game.prototype.start = function() {
   if (this.stream) {
     this.streamPosition();
   }
+  setInterval(this.updateScore.bind(this), 1000);
 };
+
+Game.prototype.updateScore = function() {
+  this.score += 1;
+};
+
+Game.prototype.end = function() {
+  this.user.die(this.score);
+};
+
 
 /**
  * Update a player's position
