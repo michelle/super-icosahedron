@@ -95,15 +95,22 @@ app.post('/score', function(req, res) {
   console.log(score, highscores[highscores.length - 1])
   if (highscores.length < 25 || score >= parseInt(highscores[highscores.length - 1].highscore)) {
     // INSERT INTO HS!! TODO
-    for (var i = 0, ii = highscores.length; i < ii; i += 1) {
-     var hs = highscores[i];
-     if (parseInt(hs.highscore) <= score) {
-      highscores.splice(i, 0, { highscore: score, email: email });
-      if (highscores.length > 25) {
-        highscores.pop();
+    for (var i = highscores.length - 1, ii = 0; i >= ii; i -= 1) {
+      var hs = highscores[i];
+      var entry = { highscore: score, email: email };
+      if (parseInt(hs.highscore) <= score) {
+        if (hs.email === email) {
+          highscores[i] = entry;
+        } else {
+          highscores.splice(i, 0, { highscore: score, email: email });
+          if (highscores.length > 25) {
+            highscores.pop();
+          }
+        }
+        break;
+      } else if (hs.email === email) {
+        highscores.splice(i, 1);
       }
-      break;
-     }
     }
     console.log(highscores);
     broadcast('highscores', {
