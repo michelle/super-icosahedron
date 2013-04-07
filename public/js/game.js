@@ -252,6 +252,9 @@ Game.prototype.getPlayerPosition = function() {
 Game.prototype.updateOpponent = function(data) {
   if (data.type === 'opponent') {
     var coord = data.coordinates;
+    for (var i = 0, ii = coord.length; i < ii; i += 1) {
+      coord[i] *= 0.9;
+    }
     var id = data.id;
     if (!this.opponent_meshes[id]) {
       var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(id));
