@@ -80,11 +80,14 @@ Game.prototype.keyLoop = function() {
     var move_amount = 0.03;
     if (this.keyState[65] || this.keyState[37]) {
       this.playerMoveLeft(move_amount);
-    } else if (this.keyState[87] || this.keyState[38]) {
+    }
+    if (this.keyState[87] || this.keyState[38]) {
       this.playerMoveUp(move_amount);
-    } else if (this.keyState[68] || this.keyState[39]) {
+    }
+    if (this.keyState[68] || this.keyState[39]) {
       this.playerMoveRight(move_amount);
-    } else if (this.keyState[83] || this.keyState[40]) {
+    }
+    if (this.keyState[83] || this.keyState[40]) {
       this.playerMoveDown(move_amount);
     }
     if (this.closest_cone_grp) {
