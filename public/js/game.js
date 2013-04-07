@@ -12,18 +12,16 @@ function Game() {
   var occ_player_geo = new THREE.CubeGeometry(10,10,10);
   var glow_player_geo = new THREE.CubeGeometry(10,10,10);
 
-  var texture;
-  if (this.user && this.user.email) {
-    texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(this.user.email));
-  }
+  var email = this.user && this.user.email ? this.user.email : '';
+  var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(email));
   this.player_mesh = new THREE.Mesh(player_geo,
-        new THREE.MeshLambertMaterial( {color: 0xffffff, 
-          map: texture ? texture : null, side: THREE.BackSide }));
+        new THREE.MeshLambertMaterial( { color: 0xffffff, 
+          map: texture, side: THREE.BackSide}));
   this.glow_player_mesh = new THREE.Mesh(glow_player_geo,
-      new THREE.MeshBasicMaterial( {color: 0xffffff, 
-        map: texture ? texture : null, side: THREE.BackSide }));
+      new THREE.MeshBasicMaterial( { color: 0xffffff, 
+        map: texture, side: THREE.BackSide }));
   this.occ_player_mesh = new THREE.Mesh(occ_player_geo,
-      new THREE.MeshBasicMaterial( {color: 0x000000 }));
+      new THREE.MeshBasicMaterial( { color: 0x000000 }));
   this.player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
   this.glow_player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
   this.occ_player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
@@ -47,14 +45,12 @@ Game.prototype.textureExistingMeshes = function() {
   var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(this.user.email));
   this.player_mesh.material = new THREE.MeshLambertMaterial({
     color: 0xffffff,
+    side: THREE.BackSide,
     map: texture
   });
   this.glow_player_mesh.material = new THREE.MeshLambertMaterial({
     color: 0xffffff,
-    map: texture
-  });
-  this.occ_player_mesh.material = new THREE.MeshLambertMaterial({
-    color: 0x000000,
+    side: THREE.BackSide,
     map: texture
   });
 };
