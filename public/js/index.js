@@ -129,14 +129,15 @@ function init() {
   static_pass.uniforms['amount'].value = 0.1;
   static_pass.uniforms['size'].value = 10.0;
 
-  static_pass.renderToScreen = true;
+  //static_pass.renderToScreen = true;
+  film_pass.renderToScreen = true;
 
   finalcomposer.addPass(normal_render);
   finalcomposer.addPass(add_gr);
   finalcomposer.addPass(add_glow);
   finalcomposer.addPass(add_glow);
   finalcomposer.addPass(film_pass);
-  finalcomposer.addPass(static_pass);
+  //finalcomposer.addPass(static_pass);
 
   animate();
 };
