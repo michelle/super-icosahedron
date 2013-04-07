@@ -97,7 +97,9 @@ app.post('/score', function(req, res) {
      var hs = highscores[i];
      if (parseInt(hs.highscore) <= score) {
       highscores.splice(i, 0, { highscore: score, email: email });
-      highscores.pop();
+      if (highscores.length > 25) {
+        highscores.pop();
+      }
       break;
      }
     }
