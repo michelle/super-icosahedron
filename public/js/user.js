@@ -112,7 +112,7 @@ User.prototype.storeInLocalStorage = function() {
  */
 User.prototype.promptEmail = function() {
   var $email = $('<div></div>').attr('id', 'email');
-  var $label = $('<label></label>').attr('for', 'emailaddress').text('Email');
+  var $label = $('<label></label>').attr('for', 'emailaddress').text('Use your email to play:');
   var $input = $('<input></input>').attr('required', true).attr('id', 'emailaddress').attr('type', 'text').attr('placeholder', 'example@example.com');
 
   var self = this;
@@ -121,11 +121,13 @@ User.prototype.promptEmail = function() {
     var email;
     if (email = $input.val()) {
       self.startWithEmail(email);
+      $email.remove();
     }
   });
-  var $override = $('<button></button>').text('Go anon');
+  var $override = $('<button></button>').text('Play Anonymously');
   $override.on('click', function() {
     self.startAnyways();
+    $email.remove();
   });
 
   $email.append($label).append($input).append($button).append($override);

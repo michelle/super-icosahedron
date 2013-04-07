@@ -278,7 +278,7 @@ Game.prototype.updateHighscores = function(data) {
   var hs = data.highscores;
   for (var i = 0, ii = hs.length; i < ii; i += 1) {
     var $s = $('<div></div>').addClass('hs');
-    var $pic = $('<img>').attr('src', User.getGravatarUrl(hs[i].email)).appendTo($s);
+    var $pic = $('<img>').attr('width', '20px').attr('src', User.getGravatarUrl(hs[i].email)).appendTo($s);
     var $email = $('<span></span>').addClass('email').html(hs[i].email).appendTo($s);
     var $hs = $('<span></span>').addClass('score').html(hs[i].highscore).appendTo($s);
     $('#highscores').append($s);
