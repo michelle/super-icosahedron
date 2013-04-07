@@ -86,8 +86,12 @@ User.prototype.die = function(score) {
  * TODO: also allow overriding of this.
  */
 User.prototype.storeInLocalStorage = function() {
-  // TODO
   console.log('storeInLocalStorage', this.toJSON());
+
+  if (window.localStorage) {
+    var info = JSON.stringify(this.toJSON());
+    localStorage.setItem('user', info);
+  }
 };
 
 /**
