@@ -141,3 +141,17 @@ Game.prototype.updateHighscores = function(data) {
 Game.prototype.updateMusic = function(song) {
   startDancer(song);
 };
+
+/**
+ * Kick.
+ */
+Game.prototype.activateCones = function() {
+  core.cones[Math.floor(Math.random() * (core.cones.length - 1))].material = new THREE.MeshLambertMaterial({ color: 0x000000 });
+};
+
+/**
+ * Decay.
+ */
+Game.prototype.restCones = function() {
+  // TODO
+};
