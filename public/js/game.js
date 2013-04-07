@@ -8,9 +8,12 @@ function Game() {
 
   this.setupStreams();
 
-  var player_geo = new THREE.CubeGeometry(10,10,10);
-  var occ_player_geo = new THREE.CubeGeometry(10,10,10);
-  var glow_player_geo = new THREE.CubeGeometry(10,10,10);
+  var player_geo = new THREE.CubeGeometry(Globals.PLAYER_SIZE,
+      Globals.PLAYER_SIZE,Globals.PLAYER_SIZE);
+  var occ_player_geo = new THREE.CubeGeometry(Globals.PLAYER_SIZE,
+      Globals.PLAYER_SIZE,Globals.PLAYER_SIZE);
+  var glow_player_geo = new THREE.CubeGeometry(Globals.PLAYER_SIZE,
+      Globals.PLAYER_SIZE,Globals.PLAYER_SIZE);
 
   var email = this.user && this.user.email ? this.user.email : '';
   var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(email));
@@ -42,7 +45,8 @@ function Game() {
  * Texture existing meshes.
  */
 Game.prototype.textureExistingMeshes = function() {
-  var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(this.user.email));
+  var texture = THREE.ImageUtils
+    .loadTexture(User.getGravatarUrl(this.user.email));
   this.player_mesh.material = new THREE.MeshLambertMaterial({
     color: 0xffffff,
     side: THREE.BackSide,
@@ -252,10 +256,13 @@ Game.prototype.updateOpponent = function(data) {
     if (!this.opponent_meshes[id]) {
       var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(id));
 
-      var opponent_geometry = new THREE.CubeGeometry(4,4,4);
-      var occ_opponent_geometry = new THREE.CubeGeometry(4,4,4);
+      var opponent_geometry = new THREE.CubeGeometry(Globals.OPPONENT_SIZE,
+          Globals.OPPONENT_SIZE,Globals.OPPONENT_SIZE);
+      var occ_opponent_geometry = new THREE.CubeGeometry(Globals.OPPONENT_SIZE,
+          Globals.OPPONENT_SIZE,Globals.OPPONENT_SIZE);
       this.opponent_meshes[id] = new THREE.Mesh(opponent_geometry,
-          new THREE.MeshLambertMaterial({ color: this.opponent_color, map: texture }));
+          new THREE.MeshLambertMaterial({ color: this.opponent_color, 
+            map: texture }));
       this.occ_opponent_meshes[id] = new THREE.Mesh(occ_opponent_geometry,
           new THREE.MeshBasicMaterial({color: 0x000000}));
       scene.add(this.opponent_meshes[id]);
@@ -280,9 +287,12 @@ Game.prototype.updateHighscores = function(data) {
   var hs = data.highscores;
   for (var i = 0, ii = hs.length; i < ii; i += 1) {
     var $s = $('<div></div>').addClass('hs');
-    var $pic = $('<img>').attr('width', '20px').attr('src', User.getGravatarUrl(hs[i].email)).appendTo($s);
-    var $email = $('<span></span>').addClass('email').html(hs[i].email).appendTo($s);
-    var $hs = $('<span></span>').addClass('score').html(hs[i].highscore).appendTo($s);
+    var $pic = $('<img>').attr('width', '20px').attr('src', 
+        User.getGravatarUrl(hs[i].email)).appendTo($s);
+    var $email = $('<span></span>').addClass('email').html(hs[i].email)
+      .appendTo($s);
+    var $hs = $('<span></span>').addClass('score').html(hs[i].highscore)
+      .appendTo($s);
     $('#highscores').append($s);
   }
 };
@@ -309,7 +319,9 @@ Game.prototype.activateCones = function() {
     highscores.unshift(info);
 
     cone.mesh.material = new THREE.MeshLambertMaterial({
-        color: parseInt('0x' + Globals.COLORS[Math.floor(Math.random() * Globals.COLORS.length)], 16)
+        color: parseInt('0x' 
+                 + Globals.COLORS[Math.floor(Math.random() 
+                   * Globals.COLORS.length)], 16)
       , map: texture
     });
   }

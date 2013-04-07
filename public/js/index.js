@@ -126,8 +126,8 @@ function init() {
   film_pass.uniforms['sIntensity'].value = 1.0;
 
   static_pass = new THREE.ShaderPass(THREE.StaticShader);
-  static_pass.uniforms['amount'].value = 0.15;
-  static_pass.uniforms['size'].value = 3.0;
+  static_pass.uniforms['amount'].value = 0.1;
+  static_pass.uniforms['size'].value = 10.0;
 
   static_pass.renderToScreen = true;
 
