@@ -2,6 +2,7 @@ var stats;
 
 function init() {
   scene = new THREE.Scene();
+  shader_time = 0;
 
   // create a light
   light = new THREE.PointLight(0xffffff);
@@ -73,23 +74,38 @@ function init() {
   gr_pass.renderToScreen = false;
 
   var add_gr = new THREE.ShaderPass(THREE.AdditiveBlendShader,'tDiffuse1');
-  add_gr.needsSwap = true;
-  add_gr.renderToScreen = true;
+  //add_gr.needsSwap = true;
+  //add_gr.renderToScreen = true;
 
-  oclcomposer = new THREE.EffectComposer( renderer, ocl_render_target );
+  oclcomposer = new THREE.EffectComposer(renderer, ocl_render_target);
 
   oclcomposer.addPass(ocl_render);
   oclcomposer.addPass(gr_pass);
 
   add_gr.uniforms['tDiffuse2'].value = oclcomposer.renderTarget1;
+  //add_gr.renderToScreen = true;
 
-  var render_target = new THREE.WebGLRenderTarget( SCREEN_WIDTH, SCREEN_HEIGHT, 
-      render_params );
+  var render_target = new THREE.WebGLRenderTarget(SCREEN_WIDTH, SCREEN_HEIGHT, 
+      render_params);
 
-  finalcomposer = new THREE.EffectComposer( renderer, render_target );
+  finalcomposer = new THREE.EffectComposer(renderer);
+  
+  film_pass = new THREE.ShaderPass(THREE.FilmShader);
+  film_pass.uniforms['grayscale'].value = 0;
+  film_pass.uniforms['sCount'].value = 750;
+  film_pass.uniforms['sIntensity'].value = 1.0;
+  film_pass.uniforms['sIntensity'].value = 1.0;
+
+  static_pass = new THREE.ShaderPass(THREE.StaticShader);
+  static_pass.uniforms['amount'].value = 0.15;
+  static_pass.uniforms['size'].value = 3.0;
+
+  static_pass.renderToScreen = true;
 
   finalcomposer.addPass(normal_render);
   finalcomposer.addPass(add_gr);
+  finalcomposer.addPass(film_pass);
+  finalcomposer.addPass(static_pass);
 
   animate();
 };
@@ -103,6 +119,9 @@ function animate()  {
 };
 
 function update() {
+  shader_time += 0.1;
+  film_pass.uniforms['time'].value = shader_time;
+  static_pass.uniforms['time'].value = shader_time;
   
 };
 
