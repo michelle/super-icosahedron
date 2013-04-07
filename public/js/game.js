@@ -27,7 +27,7 @@ function Game() {
   this.occ_player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
   this.opponent_group = new THREE.Object3D();
 
-  this.opponent_material = new THREE.MeshLambertMaterial( {color: 0x3BB9FF} );
+  this.opponent_color = 0xffffff;
   this.opponent_meshes = {};
   this.occ_opponent_meshes = {};
   this.up_vec = new THREE.Vector3(0,1,0);
@@ -248,10 +248,12 @@ Game.prototype.updateOpponent = function(data) {
     var coord = data.coordinates;
     var id = data.id;
     if (!this.opponent_meshes[id]) {
+      var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(id));
+
       var opponent_geometry = new THREE.CubeGeometry(4,4,4);
       var occ_opponent_geometry = new THREE.CubeGeometry(4,4,4);
       this.opponent_meshes[id] = new THREE.Mesh(opponent_geometry,
-          this.opponent_material);
+          new THREE.MeshLambertMaterial({ color: this.opponent_color, map: texture }));
       this.occ_opponent_meshes[id] = new THREE.Mesh(occ_opponent_geometry,
           new THREE.MeshBasicMaterial({color: 0x000000}));
       scene.add(this.opponent_meshes[id]);

@@ -29,7 +29,6 @@ var db = require('mongoskin').db('localhost:27017/super');
 var User = db.collection('users');
 var highscores = {};
 
-// TODO: change limit to no of faces.
 User.find().sort({ highscore: 1 }).limit(25).toArray(function(err, arr) {
   console.log(arr);
   highscores = arr;
