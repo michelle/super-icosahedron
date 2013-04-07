@@ -1,31 +1,3 @@
-function SquareCone(length, size, iso_point) {
-  THREE.Geometry.call(this);
-
-  this.vertices = [
-    new THREE.Vector3(0,0,0),
-    new THREE.Vector3(-size, size, length),
-    new THREE.Vector3(-size, -size, length),
-    new THREE.Vector3(size, -size, length),
-    new THREE.Vector3(size, size, length)
-      ];
-
-
-  this.faces = [
-    new THREE.Face3(0,1,4),
-    new THREE.Face3(0,2,1),
-    new THREE.Face3(0,4,3),
-    new THREE.Face3(0,3,2),
-    new THREE.Face3(1,2,3),
-    new THREE.Face3(1,3,4)
-      ];
-  this.computeCentroids();
-  this.computeFaceNormals();
-  this.mergeVertices();
-  this.iso_point = iso_point.clone().normalize();
-}
-
-SquareCone.prototype = Object.create( THREE.Geometry.prototype );
-
 function Core(radius, subdivs, sq_dim) {
   this.group = new THREE.Object3D();
   this.iso_points = (new THREE.IcosahedronGeometry(1,subdivs)).vertices;
@@ -35,26 +7,9 @@ function Core(radius, subdivs, sq_dim) {
   this.cones = [];
 
   for (var i = 0; i < this.iso_points.length; i++) {
-    var n_g = new THREE.Object3D();
-    var cur_iso_point = this.iso_points[i].clone().normalize();
-    var cur_cone = new THREE.Mesh(new SquareCone(this.radius,
-          this.sq_dim,cur_iso_point),
-          new THREE.MeshLambertMaterial( { color: 0x00ff00 }));
-    n_g.add(cur_cone);
-    var theta = Math.atan2(cur_iso_point.x, cur_iso_point.z);
-    var phi = Math.PI/2 - Math.acos(-cur_iso_point.y);
-
-    var m1 = new THREE.Matrix4();
-    var m2 = new THREE.Matrix4();
-    m1.makeRotationY(theta);
-    m2.makeRotationX(phi);
-
-    var m = new THREE.Matrix4();
-    m.multiplyMatrices(m1,m2);
-
-    n_g.applyMatrix(m);
-    this.group.add(n_g);
-    this.cones.push(cur_cone);
+    var sq_cone = new SquareCone(this.radius, this.sq_dim, this.iso_points[i]);
+    this.group.add(sq_cone.group);
+    this.cones.push(sq_cone.mesh);
   }
 }
 
