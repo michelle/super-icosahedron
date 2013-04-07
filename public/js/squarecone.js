@@ -18,7 +18,21 @@ function SquareCone(length, size, iso_point) {
   m2.makeRotationX(phi);
   this.placement_matrix.multiplyMatrices(m1,m2);
 
+  // how the heck do i set a matrix?!
+  this.group.matrix = new THREE.Matrix4();
   this.group.applyMatrix(this.placement_matrix);
+}
+
+SquareCone.prototype.setScale = function (s) {
+  this.group.matrix = new THREE.Matrix4();
+  this.group.applyMatrix(this.placement_matrix);
+  var m = new THREE.Matrix4();
+  var min_s = 1;
+  var max_s = Globals.OUTER_RADIUS/Globals.INNER_RADIUS;
+  var s_range = max_s - min_s;
+  var upd_s = s*s_range + min_s;
+  m.makeScale(upd_s, upd_s, upd_s);
+  this.group.applyMatrix(m);
 }
 
 
