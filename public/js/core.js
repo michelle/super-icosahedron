@@ -17,7 +17,19 @@ function Core(radius, subdivs, sq_dim) {
 Core.prototype.stepRotation = function(theta) {
   var mat = new THREE.Matrix4();
   mat.makeRotationY(theta);
+  console.log(mat);
   this.group.applyMatrix(mat);
+  this.ocl_group.applyMatrix(mat);
+  game.playerMoved();
+}
+
+Core.prototype.setRotation = function(theta) { 
+  var mat = new THREE.Matrix4();
+  mat.makeRotationY(theta);
+  console.log(mat);
+  this.group.matrix = new THREE.Matrix4();
+  this.group.applyMatrix(mat);
+  this.ocl_group.matrix = new THREE.Matrix4();
   this.ocl_group.applyMatrix(mat);
   game.playerMoved();
 }
