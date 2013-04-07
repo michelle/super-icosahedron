@@ -65,8 +65,19 @@ Game.prototype.playerMoveUp = function(amount) {
   var rot_mat = new THREE.Matrix4();
   rot_mat.makeRotationAxis(this.left_vec,amount);
   this.player_mesh.position.applyMatrix4(rot_mat);
-  this.up_vec.crossVectors(this.player_mesh.position, this.left_vec);
-  this.up_vec.normalize();
+  var n_up_vec = new THREE.Vector3();
+  n_up_vec.crossVectors(this.player_mesh.position, this.left_vec);
+  n_up_vec.normalize();
+  if (n_up_vec.dot(this.up_vec) < 0) {
+    n_up_vec = n_up_vec.multiplyScalar(-1);
+  }
+  this.up_vec = n_up_vec;
+  var cam_mat = new THREE.Matrix4();
+  camera.position = (this.player_mesh.position.clone().normalize()
+      .multiplyScalar(Globals.CAMERA_DIST));
+  camera.up = this.up_vec;
+  camera.lookAt(new THREE.Vector3(0,0,0));
+  camera.updateProjectionMatrix();
 }
 
 Game.prototype.playerMoveDown = function(amount) {
@@ -77,8 +88,18 @@ Game.prototype.playerMoveRight = function(amount) {
   var rot_mat = new THREE.Matrix4();
   rot_mat.makeRotationAxis(this.up_vec,amount);
   this.player_mesh.position.applyMatrix4(rot_mat);
-  this.left_vec.crossVectors(this.player_mesh.position, this.up_vec);
-  this.left_vec.normalize();
+  var n_left_vec = new THREE.Vector3();
+  n_left_vec.crossVectors(this.player_mesh.position, this.up_vec);
+  n_left_vec.normalize();
+  if (n_left_vec.dot(this.left_vec) < 0) {
+    n_left_vec = n_left_vec.multiplyScalar(-1);
+  }
+  this.left_vec = n_left_vec;
+  camera.position = (this.player_mesh.position.clone().normalize()
+      .multiplyScalar(Globals.CAMERA_DIST));
+  camera.up = this.up_vec;
+  camera.lookAt(new THREE.Vector3(0,0,0));
+  camera.updateProjectionMatrix();
 }
 
 Game.prototype.playerMoveLeft = function(amount) {

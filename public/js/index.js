@@ -22,7 +22,7 @@ function init() {
   camera.position.set(0,0,400);
   camera.lookAt(scene.position);
   
-  controls = new THREE.TrackballControls( camera );
+  //controls = new THREE.TrackballControls( camera );
 
   scene.add(game.player_mesh);
   scene.add(game.opponent_meshes);
@@ -54,7 +54,7 @@ function animate()  {
   requestAnimationFrame( animate );
   render();
   update();
-  controls.update();
+  //controls.update();
   stats.update();
 };
 

@@ -2,7 +2,7 @@
  * Handle WASD, arrow keys.
  */
 function handleKeys(ev) {
-  var move_amount = 0.1;
+  var move_amount = 0.05;
   var kc = ev.keyCode || ev.which;
 
   switch (kc) {
