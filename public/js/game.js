@@ -154,7 +154,9 @@ Game.prototype.updateMusic = function(song) {
  * Kick.
  */
 Game.prototype.activateCones = function() {
-  core.cones[Math.floor(Math.random() * (core.cones.length - 1))].material = new THREE.MeshLambertMaterial({ color: this.randomColor() });
+  core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
+    .mesh.material = new THREE.MeshLambertMaterial({ color: this.randomColor() 
+    });
 };
 
 /**

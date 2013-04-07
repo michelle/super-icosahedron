@@ -9,7 +9,7 @@ function Core(radius, subdivs, sq_dim) {
   for (var i = 0; i < this.iso_points.length; i++) {
     var sq_cone = new SquareCone(this.radius, this.sq_dim, this.iso_points[i]);
     this.group.add(sq_cone.group);
-    this.cones.push(sq_cone.mesh);
+    this.cones.push(sq_cone);
   }
 }
 
