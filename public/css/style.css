@@ -3,14 +3,17 @@ a {outline: none;} /* Gets rid of Firefox's dotted borders */
 a img {border: none;} /* Gets rid of IE's blue borders */
 
 body {
+  font-family: Helvetica, Arial, 'sans-serif';
 }
 
-#scores, #dynamic {
+#myscore-wrapper, #scores, #dynamic {
   z-index: 999;
 }
 
 #container {
   position: absolute;
+  bottom: 0;
+  right: 0;
   background: #fff;
   top: 0:
   left: 0;
@@ -23,11 +26,58 @@ body {
   position: relative;
 }
 
+#myscore-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 100px;
+  padding: 15px 30px;
+  font-family: 'Aldrich', sans-serif;
+  color: #d30e25;
+  opacity: 0.5;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.8);
+}
+
 #scores {
   position: absolute;
   right: 0;
   top: 0;
-  background-color: red;
-  width: 200px;
-  height: 200px;
+  background-color: rgba(255,255,255,0.1);
+  border: 1px solid rgba(0,0,0,0.5);
+  border-radius: 0 0 0 5px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+  width: 150px;
+  padding: 15px;
+  color: #fff;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.hs {
+  height: 24px;
+}
+
+.score, .email {
+  display: inline-block;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+}
+
+img {
+  border: 1px solid rgba(255,255,255,0.2);
+  margin-right: 5px;
+  float: left;
+  border-radius: 10px;
+}
+
+.email {
+  float: left;
+  max-width: 80px;
+  overflow: hidden;
+}
+
+.score {
+  float: right;
+  color: #ff1dc2;
+  opacity: 0.6;
+  font-weight: 600;
 }

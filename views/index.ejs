@@ -1,12 +1,23 @@
 <div id="container"></div>
 <div id="dynamic"></div>
 <div id="scores">
-  <div id="myscore"></div>
   <div id="highscores">
     <% for (var i = 0, ii = highscores.length; i < ii; i += 1) { %>
-      <div class="hs"><%= highscores[i].email %><%= highscores[i].highscore %></div>
+      <div class="hs">
+        <img data-email="<%= highscores[i].email %>">
+        <span class="email">
+          <%= highscores[i].email %>
+        </span>
+        <span class="score">
+          <%= highscores[i].highscore %>
+        </span>
+      </div>
     <% } %>
   </div>
+</div>
+
+<div id="myscore-wrapper">
+  <span id="myscore"></span>
 </div>
 
 <div id="restart">

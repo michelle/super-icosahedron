@@ -30,9 +30,6 @@ User.prototype.setGravatarImage = function() {
     this.url = gravatar_url + hash + gravatar_params;
   }
 
-  var $img = $('<img>').attr('src', this.url);
-  $('#dynamic').html($img);
-
   this.game.textureExistingMeshes();
 
   this.storeInLocalStorage();

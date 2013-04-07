@@ -16,7 +16,7 @@ function broadcast(type, data) {
   data.type = type;
   for (var i = 0, ii = stream_labels.length; i < ii; i += 1) {
     var s = streams[stream_labels[i]];
-    if (s.email !== data.id) {
+    if (type === 'highscores' || s.email !== data.id) {
       s.write(data);
     }
   }
@@ -30,7 +30,9 @@ var User = db.collection('users');
 var highscores = {};
 
 User.find().sort({ highscore: 1 }).limit(25).toArray(function(err, arr) {
-  console.log(arr);
+  for (var i = 0, ii = arr.length; i < ii; i += 1) {
+    delete arr[i]['_id'];
+  }
   highscores = arr;
 });
 
@@ -87,6 +89,7 @@ app.get('/existing/:email', function(req, res) {
 });
 
 app.post('/score', function(req, res) {
+  console.log(req.body);
   var email = req.body.email;
   var score = req.body.highscore;
   console.log(score, highscores[highscores.length - 1])

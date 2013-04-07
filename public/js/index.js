@@ -1,6 +1,11 @@
 var stats;
 
 function init() {
+  $('img').each(function() {
+    var email = $(this).attr('data-email');
+    $(this).attr('src', User.getGravatarUrl(email)).attr('width', '20px');
+  });
+
   shader_time = 0;
 
   scene = new THREE.Scene();
@@ -55,12 +60,12 @@ function init() {
   renderer.sortObjects = true;
   $('#container').append(renderer.domElement);
 
-  stats = new Stats();
-  stats.domElement.style.position = 'absolute';
-  stats.domElement.style.top = '0px';
-  stats.domElement.style.left = '0px';
-  stats.domElement.style.zIndex = 100;
-  $('#container').append(stats.domElement);
+  //stats = new Stats();
+  //stats.domElement.style.position = 'absolute';
+  //stats.domElement.style.top = '0px';
+  //stats.domElement.style.left = '0px';
+  //stats.domElement.style.zIndex = 100;
+  //$('#container').append(stats.domElement);
 
   var render_params = { minFilter: THREE.LinearFilter, 
     magFilter: THREE.LinearFilter, format: THREE.RGBFormat, 
@@ -141,7 +146,7 @@ function animate()  {
   update();
   TWEEN.update();
   render();
-  stats.update();
+  //stats.update();
 };
 
 function update() {
