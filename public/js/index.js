@@ -5,6 +5,7 @@ function init() {
 
   scene = new THREE.Scene();
   oclscene = new THREE.Scene();
+  glowscene = new THREE.Scene();
 
   // create a light
   light = new THREE.PointLight(0xffffff);
@@ -24,6 +25,7 @@ function init() {
 
   scene.add(game.player_mesh);
   oclscene.add(game.occ_player_mesh);
+  glowscene.add(game.glow_player_mesh);
   scene.add(game.opponent_meshes);
   scene.add(game.occ_opponent_meshes);
 
@@ -65,9 +67,12 @@ function init() {
     stencilBufer: false };
   ocl_render_target = new THREE.WebGLRenderTarget( SCREEN_WIDTH/2, 
       SCREEN_HEIGHT/2, render_params );
+  var glow_render_target = new THREE.WebGLRenderTarget( SCREEN_WIDTH/2, 
+      SCREEN_HEIGHT/2, render_params );
 
   var normal_render = new THREE.RenderPass( scene, camera );
   var ocl_render = new THREE.RenderPass( oclscene, camera );
+  var glow_render = new THREE.RenderPass(glowscene, camera);
 
   var gr_pass = new THREE.ShaderPass( gr_shader );
   // light is always in center of screen
@@ -76,8 +81,16 @@ function init() {
   gr_pass.needsSwap = true;
   gr_pass.renderToScreen = false;
 
+  var horiz_blur = new THREE.ShaderPass(THREE.HorizontalBlurShader);
+  var vert_blur = new THREE.ShaderPass(THREE.VerticalBlurShader);
+  
+  horiz_blur.uniforms[ "h" ].value = 5 / window.innerWidth;
+  vert_blur.uniforms[ "v" ].value = 5 / window.innerHeight;
+
   var add_gr = new THREE.ShaderPass(THREE.AdditiveBlendShader,'tDiffuse1');
-  //add_gr.needsSwap = true;
+  var add_glow = new THREE.ShaderPass(THREE.AdditiveBlendShader,'tDiffuse1');
+
+  add_gr.needsSwap = true;
   //add_gr.renderToScreen = true;
 
   oclcomposer = new THREE.EffectComposer(renderer, ocl_render_target);
@@ -85,7 +98,15 @@ function init() {
   oclcomposer.addPass(ocl_render);
   oclcomposer.addPass(gr_pass);
 
+
+  glowcomposer = new THREE.EffectComposer(renderer, glow_render_target);
+
+  glowcomposer.addPass(glow_render);
+  glowcomposer.addPass(horiz_blur);
+  glowcomposer.addPass(vert_blur);
+
   add_gr.uniforms['tDiffuse2'].value = oclcomposer.renderTarget1;
+  add_glow.uniforms['tDiffuse2'].value = glowcomposer.renderTarget1;
   //add_gr.renderToScreen = true;
 
   var render_target = new THREE.WebGLRenderTarget(SCREEN_WIDTH, SCREEN_HEIGHT, 
@@ -107,6 +128,8 @@ function init() {
 
   finalcomposer.addPass(normal_render);
   finalcomposer.addPass(add_gr);
+  finalcomposer.addPass(add_glow);
+  finalcomposer.addPass(add_glow);
   finalcomposer.addPass(film_pass);
   finalcomposer.addPass(static_pass);
 
@@ -130,6 +153,7 @@ function update() {
 
 function render() {	
   oclcomposer.render();
+  glowcomposer.render();
   finalcomposer.render();
 };
 

@@ -8,13 +8,19 @@ function Game() {
 
   var player_geo = new THREE.CubeGeometry(10,10,10);
   var occ_player_geo = new THREE.CubeGeometry(10,10,10);
+  var glow_player_geo = new THREE.CubeGeometry(10,10,10);
   var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl('auraxiii@gmail.com'));
   this.player_mesh = new THREE.Mesh(player_geo,
         new THREE.MeshLambertMaterial( {color: 0xffffff, 
-          map: texture,side: THREE.BackSide }));
+          map: texture, side: THREE.BackSide }));
+  this.glow_player_mesh = new THREE.Mesh(glow_player_geo,
+      new THREE.MeshBasicMaterial( {color: 0xffffff, 
+        map: texture, side: THREE.BackSide }));
   this.occ_player_mesh = new THREE.Mesh(occ_player_geo,
       new THREE.MeshBasicMaterial( {color: 0x000000 }));
   this.player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
+  this.glow_player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
+  this.occ_player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
   this.opponent_group = new THREE.Object3D();
 
   this.opponent_material = new THREE.MeshLambertMaterial( {color: 0x000000} );
@@ -145,6 +151,7 @@ Game.prototype.playerMoveUp = function(amount) {
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
 
+  this.glow_player_mesh.position = this.player_mesh.position;
   this.occ_player_mesh.position = this.player_mesh.position;
 
   light.position = this.player_mesh.position.clone().normalize()
@@ -175,6 +182,7 @@ Game.prototype.playerMoveRight = function(amount) {
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
 
+  this.glow_player_mesh.position = this.player_mesh.position;
   this.occ_player_mesh.position = this.player_mesh.position;
 
   light.position = this.player_mesh.position.clone().normalize()
