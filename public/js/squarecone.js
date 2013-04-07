@@ -35,13 +35,17 @@ SquareCone.prototype.setScale = function (s) {
   this.group.applyMatrix(m);
 }
 
-SquareCone.prototype.startTween = function(rand) {
-  this.tween_position = { s: rand > .5 ? 0 : 1 };
-  this.tween_target = { s: rand > .5 ? 1 : 0 };
-  var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 500);
+SquareCone.prototype.startTween = function() {
+  this.tween_position = { s: this.up ? 1 : 0 };
+  this.tween_target = { s: this.up ? 0 : 1 };
+  var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 1000);
   var self = this;
   tween.onUpdate(function() {
     self.setScale(self.tween_position.s);
+  });
+  tween.onComplete(function() {
+    self.up = !self.up;
+    self.startTween()
   });
   tween.easing(TWEEN.Easing.Elastic.InOut)
   tween.start();
