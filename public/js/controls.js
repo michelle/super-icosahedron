@@ -2,38 +2,23 @@
  * Handle WASD, arrow keys.
  */
 function handleKeys(ev) {
-  switch (ev.keyCode) {
-    case 37:  // left
-    case 65:  // 'a'
-      moveLeft();
+  var move_amount = 0.1;
+  console.log(ev.keyCode);
+  console.log(ev.charCode);
+
+  switch (String.fromCharCode(ev.keyCode)) {
+    case 'a':  // 'a'
+      game.playerMoveLeft(move_amount);
       break;
-    case 38:  // up
-    case 87:  // 'w'
-      moveUp();
+    case 'w':  // 'w'
+      game.playerMoveUp(move_amount);
       break;
-    case 39:  // right
-    case 68:  // 'd'
-      moveRight();
+    case 'd':  // 'd'
+      console.log('asdf');
+      game.playerMoveRight(move_amount);
       break;
-    case 40:  // down
-    case 83:  // 's'
-      moveDown();
+    case 's':  // 's'
+      game.playerMoveDown(move_amount);
       break;
   }
-};
-
-function moveLeft() {
-
-};
-
-function moveRight() {
-
-};
-
-function moveUp() {
-
-};
-
-function moveDown() {
-
 };

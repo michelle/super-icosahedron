@@ -12,6 +12,8 @@ function Game() {
   this.opponent_geometry = new THREE.CubeGeometry(4,4,4);
   this.opponent_material = new THREE.MeshBasicMaterial( {color: 0x000000} );
   this.opponent_meshes = {};
+
+  $(document).keypress(handleKeys);
 };
 
 /**
