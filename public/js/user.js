@@ -39,6 +39,17 @@ User.prototype.setGravatarImage = function() {
   this.game.start();
 };
 
+User.getGravatarUrl = function(email) {
+  var gravatar_url = 'http://www.gravatar.com/avatar/';
+  var gravatar_params = '?r=pg&d=retro';
+
+  // Trim whitespace and lowercase.
+  email = email.replace(/(^\s*)|(\s*$)/g, '').toLowerCase();
+  var hash = md5(email);
+
+  return gravatar_url + hash + gravatar_params;
+};
+
 /**
  * Force start as anon.
  * Get unique anon id from server.

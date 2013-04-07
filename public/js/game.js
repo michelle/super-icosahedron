@@ -70,7 +70,7 @@ Game.prototype.streamPosition = function() {
  * Set up BinaryJS stream.
  */
 Game.prototype.setupStreams = function() {
-  var client = new BinaryClient('ws://10.22.35.35:9000');
+  var client = new BinaryClient('ws://10.22.34.234:9000');
 
   var self = this;
   client.on('open', function() {
