@@ -3,5 +3,20 @@ a {outline: none;} /* Gets rid of Firefox's dotted borders */
 a img {border: none;} /* Gets rid of IE's blue borders */
 
 body {
+}
+
+#dynamic {
+  position: relative;
+  margin: 0 auto;
+  z-index: 999;
+
+  width: 500px;
+}
+
+#container {
+  position: absolute;
   background: #6699E9;
+  top: 0:
+  left: 0;
+  z-index: 1;
 }

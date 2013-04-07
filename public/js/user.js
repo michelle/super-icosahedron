@@ -8,6 +8,8 @@ function User(game, user) {
 
   if (this.email) {
     this.setGravatarImage();
+  } else {
+    this.promptEmail();
   }
 };
 
@@ -96,6 +98,28 @@ User.prototype.storeInLocalStorage = function() {
     var info = JSON.stringify(this.toJSON());
     localStorage.setItem('user', info);
   }
+};
+
+/**
+ * Prompt for email address.
+ */
+User.prototype.promptEmail = function() {
+  var $email = $('<div></div>').attr('id', 'email');
+  var $label = $('<label></label>').attr('for', 'emailaddress').text('Email');
+  var $input = $('<input></input>').attr('id', 'emailaddress').attr('type', 'text').attr('placeholder', 'example@example.com');
+
+  var self = this;
+  var $button = $('<button></button>').text('Start');
+  $button.on('click', function() {
+    // TODO: save email and hide.
+  });
+  var $override = $('<button></button>').text('Go anon');
+  $override.on('click', function() {
+    self.startAnyways();
+  });
+
+  $email.append($label).append($input).append($button).append($override);
+  $('#dynamic').append($email);
 };
 
 /**
