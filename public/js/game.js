@@ -8,7 +8,7 @@ function Game() {
 
   this.player_mesh = new THREE.Mesh(new THREE.CubeGeometry(2,2,2),
         new THREE.MeshBasicMaterial( {color: 0xffffff }));
-  this.player_mesh.position.set(0,0,Globals.OUTER_RADIUS);
+  this.player_mesh.position.set(0,0,Globals.PLAYER_RADIUS);
   this.opponent_group = new THREE.Object3D();
 
   this.opponent_geometry = new THREE.CubeGeometry(4,4,4);
@@ -227,12 +227,12 @@ Game.prototype.updateMusic = function(song, playback) {
  * Kick.
  */
 Game.prototype.activateCones = function() {
-  core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
-    .mesh.material = new THREE.MeshLambertMaterial({ color: this.randomColor() 
-    });
   for (var i = 0; i < 5; i += 1) {
-    core.cones[Math.floor(Math.random() * (core.cones.length - 1))]
-      .startTween();
+    var cone = core.cones[Math.floor(Math.random() * (core.cones.length - 1))];
+    cone.startTween();
+    cone.mesh.material = new THREE.MeshLambertMaterial({
+      color: parseInt('0x' + Globals.COLORS[Math.floor(Math.random() * Globals.COLORS.length)], 16)
+    });
   }
 
   this.brightenBackground();
