@@ -30,11 +30,13 @@ function Core(radius, subdivs, sq_dim) {
   this.iso_points = (new THREE.IcosahedronGeometry(1,subdivs)).vertices;
   console.log(this.iso_points);
   this.radius = radius;
+  this.cones = [];
 
   for (var i = 0; i < this.iso_points.length; i++) {
     var n_g = new THREE.Object3D();
-    n_g.add(new THREE.Mesh(new SquareCone(50,5),
-          new THREE.MeshLambertMaterial( { color: 0x00ff00 })));
+    var cur_cone = new THREE.Mesh(new SquareCone(50,5),
+          new THREE.MeshLambertMaterial( { color: 0x00ff00 }));
+    n_g.add(cur_cone);
     var cur_iso_point = this.iso_points[i].clone().normalize();
     var theta = Math.atan2(cur_iso_point.x, cur_iso_point.z);
     var phi = Math.PI/2 - Math.acos(-cur_iso_point.y);
@@ -49,6 +51,7 @@ function Core(radius, subdivs, sq_dim) {
 
     n_g.applyMatrix(m);
     this.group.add(n_g);
+    this.cones.push(cur_cone);
   }
 }
 

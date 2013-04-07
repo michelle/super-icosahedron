@@ -27,7 +27,7 @@ function init() {
   scene.add(game.player_mesh);
   scene.add(game.opponent_meshes);
 
-  var core = new Core(Globals.INNER_RADIUS,2,10);
+  core = new Core(Globals.INNER_RADIUS,2,10);
   scene.add(core.squareCenters());
   scene.add(core.group);
 
