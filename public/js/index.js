@@ -4,7 +4,7 @@ function init() {
   scene = new THREE.Scene();
 
   // create a light
-  var light = new THREE.PointLight(0xffffff);
+  light = new THREE.PointLight(0xffffff);
   light.position.set(0,250,0);
   scene.add(light);
   var ambientLight = new THREE.AmbientLight(0x111111);
@@ -27,7 +27,6 @@ function init() {
   scene.add(game.player_mesh);
   scene.add(game.opponent_meshes);
 
-  core = new Core(Globals.INNER_RADIUS,2,10);
   scene.add(core.squareCenters());
   scene.add(core.group);
 
@@ -82,6 +81,7 @@ function maybeLocalStorage() {
  */
 $(document).ready(function() {
   // var game, user;
+  core = new Core(Globals.INNER_RADIUS,2,10);
   game = new Game();
   user = new User(game, maybeLocalStorage());
 

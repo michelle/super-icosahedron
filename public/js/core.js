@@ -1,4 +1,4 @@
-function SquareCone(length, size) {
+function SquareCone(length, size, iso_point) {
   THREE.Geometry.call(this);
 
   this.vertices = [
@@ -21,6 +21,7 @@ function SquareCone(length, size) {
   this.computeCentroids();
   this.computeFaceNormals();
   this.mergeVertices();
+  this.iso_point = iso_point.clone().normalize();
 }
 
 SquareCone.prototype = Object.create( THREE.Geometry.prototype );
@@ -34,10 +35,10 @@ function Core(radius, subdivs, sq_dim) {
 
   for (var i = 0; i < this.iso_points.length; i++) {
     var n_g = new THREE.Object3D();
-    var cur_cone = new THREE.Mesh(new SquareCone(50,5),
+    var cur_iso_point = this.iso_points[i].clone().normalize();
+    var cur_cone = new THREE.Mesh(new SquareCone(50,5,cur_iso_point),
           new THREE.MeshLambertMaterial( { color: 0x00ff00 }));
     n_g.add(cur_cone);
-    var cur_iso_point = this.iso_points[i].clone().normalize();
     var theta = Math.atan2(cur_iso_point.x, cur_iso_point.z);
     var phi = Math.PI/2 - Math.acos(-cur_iso_point.y);
 
@@ -67,4 +68,17 @@ Core.prototype.squareCenters = function() {
     square_center_group.add(cube);
   }
   return square_center_group;
+}
+
+Core.prototype.getClosestConeGroup = function(pos) {
+  //project to sphere
+  var sph_pos = pos.clone().normalize();
+  
+  //distance on sphere is given by dot product
+  //so sort by the distances to appropriate iso points
+  //
+  var dist_cone_grps = this.group.children.sort(function(x,y) {
+    return Math.acos(x.children[0].geometry.iso_point.dot(sph_pos)) 
+    - Math.acos(y.children[0].geometry.iso_point.dot(sph_pos))});
+  return dist_cone_grps[0];
 }

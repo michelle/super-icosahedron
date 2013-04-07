@@ -6,7 +6,7 @@ function Game() {
 
   this.setupStreams();
 
-  this.player_mesh = new THREE.Mesh(new THREE.CubeGeometry(10,10,10),
+  this.player_mesh = new THREE.Mesh(new THREE.CubeGeometry(2,2,2),
         new THREE.MeshBasicMaterial( {color: 0xffffff }));
   this.player_mesh.position.set(Globals.OUTER_RADIUS,0,0);
   this.opponent_group = new THREE.Object3D();
@@ -16,6 +16,7 @@ function Game() {
   this.opponent_meshes = {};
   this.up_vec = new THREE.Vector3(0,1,0);
   this.left_vec = new THREE.Vector3(-1,0,0);
+  this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
 
   $(document).keydown(handleKeys);
 };
@@ -78,6 +79,8 @@ Game.prototype.playerMoveUp = function(amount) {
   camera.up = this.up_vec;
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
+
+  this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
 }
 
 Game.prototype.playerMoveDown = function(amount) {
@@ -100,6 +103,7 @@ Game.prototype.playerMoveRight = function(amount) {
   camera.up = this.up_vec;
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
+  this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
 }
 
 Game.prototype.playerMoveLeft = function(amount) {
