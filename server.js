@@ -94,15 +94,14 @@ app.post('/score', function(req, res) {
   var score = req.body.highscore;
   console.log(score, highscores[highscores.length - 1])
   if (highscores.length < 25 || score >= parseInt(highscores[highscores.length - 1].highscore)) {
-    // INSERT INTO HS!! TODO
     for (var i = highscores.length - 1, ii = 0; i >= ii; i -= 1) {
       var hs = highscores[i];
       var entry = { highscore: score, email: email };
-      if (parseInt(hs.highscore) <= score) {
+      if (parseInt(hs.highscore) > score) {
         if (hs.email === email) {
-          highscores[i] = entry;
+          highscores[i + 1] = entry;
         } else {
-          highscores.splice(i, 0, { highscore: score, email: email });
+          highscores.splice(i + 1, 0, { highscore: score, email: email });
           if (highscores.length > 25) {
             highscores.pop();
           }

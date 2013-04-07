@@ -72,40 +72,40 @@ Game.prototype.attachKeyListeners = function() {
  * Handle WASD, arrow keys.
  */
 Game.prototype.keyLoop = function() {
-  var move_amount = 0.03;
-  if (this.keyState[65] || this.keyState[37]) {
-    this.playerMoveLeft(move_amount);
-  } else if (this.keyState[87] || this.keyState[38]) {
-    this.playerMoveUp(move_amount);
-  } else if (this.keyState[68] || this.keyState[39]) {
-    this.playerMoveRight(move_amount);
-  } else if (this.keyState[83] || this.keyState[40]) {
-    this.playerMoveDown(move_amount);
-  }
-  if (this.closest_cone_grp) {
-    if (this.closest_cone_grp.up) {
-      this.end();
+  if (this.started) {
+    var move_amount = 0.03;
+    if (this.keyState[65] || this.keyState[37]) {
+      this.playerMoveLeft(move_amount);
+    } else if (this.keyState[87] || this.keyState[38]) {
+      this.playerMoveUp(move_amount);
+    } else if (this.keyState[68] || this.keyState[39]) {
+      this.playerMoveRight(move_amount);
+    } else if (this.keyState[83] || this.keyState[40]) {
+      this.playerMoveDown(move_amount);
+    }
+    if (this.closest_cone_grp) {
+      if (this.closest_cone_grp.up) {
+        this.end();
+      }
     }
   }
-  if (this.started) {
-    this.t0 = setTimeout(this.boundKeyLoop, 10);
-  }
+  setTimeout(this.boundKeyLoop, 10);
 };
 
 /**
  * Stream current position.
  */
 Game.prototype.streamPosition = function() {
-  var pos = this.player_mesh.position;
-  this.stream.write({
-    id: this.user.email,
-    coordinates: [pos.x, pos.y, pos.z],
-    song: parseInt($audio.attr('data-song')),
-    playback: $audio[0].currentTime
-  });
-  if (this.t1) {
-    this.t1 = setTimeout(this.boundStreamPosition, 500);
+  if (this.started) {
+    var pos = this.player_mesh.position;
+    this.stream.write({
+      id: this.user.email,
+      coordinates: [pos.x, pos.y, pos.z],
+      song: parseInt($audio.attr('data-song')),
+      playback: $audio[0].currentTime
+    });
   }
+  setTimeout(this.boundStreamPosition, 500);
 };
 
 /**
@@ -137,27 +137,32 @@ Game.prototype.error = function(msg) {
  */
 Game.prototype.start = function() {
   // TODO: CANNOT start until this.stream exists.
-  console.log('Start game');
   this.started = true;
   this.score = 0;
   this.color_theme = [0,0,0];
 
-  this.keyState = {};
-  this.attachKeyListeners();
-  this.keyLoop();
-  if (this.stream) {
-    this.streamPosition();
+  if (!this.listeners_attached) {
+    this.keyState = {};
+    this.attachKeyListeners();
+    this.keyLoop();
+    if (this.stream) {
+      this.streamPosition();
+    }
+    setInterval(this.updateScore.bind(this), 1000);
+
+    this.listeners_attached = true;
   }
 
   if (window.vlight) {
     vlight.material = new THREE.MeshBasicMaterial({
       color:0xffffff });
   }
- 
-  this.i0 = setInterval(this.updateScore.bind(this), 1000);
 };
 
 Game.prototype.updateScore = function() {
+  if (!this.started) {
+    return;
+  }
   this.score += 1;
   $('#myscore').text(this.score);
 };
@@ -169,9 +174,6 @@ Game.prototype.end = function() {
     vlight.material = new THREE.MeshBasicMaterial({
       color:0xAA0114 });
     this.color_theme = [0, 255, 255];
-    clearInterval(this.i0);
-    clearTimeout(this.t0);
-    clearTimeout(this.t1);
     this.started = false;
 
     this.promptRestart();
