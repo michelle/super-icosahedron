@@ -16,7 +16,7 @@ Globals.LIGHT_DIST = 250;
 Globals.TAU = (1 + Math.sqrt(5)) / 2;
 
 // Blue/yellow/red
-Globals.COLORS = [
+Globals.COLORS2 = [
     '2A3140'
   , 'F2D399'
   , 'F29863'
@@ -30,7 +30,7 @@ Globals.COLORS = [
 ];
 
 // Purple
-Globals.COLORS2 = [
+Globals.COLORS = [
     '4D3A4C'
   , '61505E'
   , '827564'
