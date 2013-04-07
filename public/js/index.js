@@ -29,12 +29,8 @@ function init() {
       new THREE.IcosahedronGeometry( 500, 1 ), // radius, subdivisions
       multiMaterial );
   //scene.add(shape);
-
-  //drawIsocahedronPoints(scene,100);
-  var squarecone_geo = new SquareCone(100,10);
-  //var squarecone_geo = new THREE.CubeGeometry(10,10,10);
-  var squarecone = new THREE.Mesh(squarecone_geo, dark_material);
-  scene.add(squarecone);
+  var core = new Core(Globals.INNER_RADIUS,2,10);
+  scene.add(core.squareCenters());
 
 
   var axes = new THREE.AxisHelper(100);
