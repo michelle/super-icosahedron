@@ -116,6 +116,8 @@ Game.prototype.playerMoveUp = function(amount) {
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
 
+  light.position = this.player_mesh.position.clone().normalize()
+    .multiplyScalar(Globals.LIGHT_DIST);
 
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
 }
@@ -140,6 +142,10 @@ Game.prototype.playerMoveRight = function(amount) {
   camera.up = this.up_vec;
   camera.lookAt(new THREE.Vector3(0,0,0));
   camera.updateProjectionMatrix();
+
+  light.position = this.player_mesh.position.clone().normalize()
+    .multiplyScalar(Globals.LIGHT_DIST);
+
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
 }
 
