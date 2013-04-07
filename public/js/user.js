@@ -33,6 +33,8 @@ User.prototype.setGravatarImage = function() {
   var $img = $('<img>').attr('src', this.url);
   $('#dynamic').html($img);
 
+  this.game.textureExistingMeshes();
+
   this.storeInLocalStorage();
 
   // We're ready to start.
