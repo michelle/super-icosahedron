@@ -8,11 +8,30 @@ var server = BinaryServer({ server: app });
 var streams = {};
 var streamCount = 0;
 
+/**
+ * Broadcasts to all streams.
+ */
+function broadcast(type, data) {
+  var stream_labels = Object.keys(streams);
+  data.type = type;
+  for (var i = 0, ii = stream_labels.length; i < ii; i += 1) {
+    var s = streams[stream_labels[i]];
+    s.write(data);
+  }
+};
+
 var anonCount = 0;
 
 var db = require('mongoskin').db('localhost:27017/super');
 
 var User = db.collection('users');
+var highscores = {};
+
+// TODO: change limit to no of faces.
+User.find().sort({ highscore: 1 }).limit(25).toArray(function(err, arr) {
+  console.log(arr);
+  highscores = arr;
+});
 
 /**
  * Realtime stuff.
@@ -25,11 +44,7 @@ server.on('connection', function(client) {
     stream.on('data', function(data) {
       console.log('Received data:', data);
       //if (data.coordinates && data.identifier) {
-        var stream_labels = Object.keys(streams);
-        for (var i = 0, ii = stream_labels.length; i < ii; i += 1) {
-          var s = streams[stream_labels[i]];
-          s.write(data);
-        }
+        broadcast('opponent', data);
       //}
     });
     stream.on('close', function() {
@@ -54,9 +69,7 @@ app.set('views', __dirname + '/views');
 
 
 app.get('/', function(req, res) {
-  //User.find({}).toArray(function(err, users) {
-    res.render('index', { top_users: res });
-  //});
+  res.render('index', { top_users: res });
 });
 
 app.get('/id', function(req, res) {
@@ -69,6 +82,24 @@ app.get('/existing/:email', function(req, res) {
   User.findOne({ email: email }, function(err, entry) {
     res.send(entry);
   });
+});
+
+app.post('/score', function(req, res) {
+  var email = req.body.identifier;
+  var score = req.body.score;
+  if (score >= highscores[highscores.length - 1]) {
+    broadcast('highscores', {
+      highscores: highscores
+    });
+  }
+
+  // Save to db if not anon.
+  if (email.indexOf('@') !== -1) {
+    User.update({ email: email },
+      { email: email, highscore: score },
+      { upsert: true }
+    );
+  }
 });
 
 app.listen(9000);
