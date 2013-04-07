@@ -143,7 +143,7 @@ Game.prototype.playerMoveUp = function(amount) {
     .multiplyScalar(Globals.LIGHT_DIST);
 
   this.closest_cone_grp = core.getClosestConeGroup(this.player_mesh.position);
-  console.log(this.closest_cone_grp)
+  //console.log(this.closest_cone_grp)
 }
 
 Game.prototype.playerMoveDown = function(amount) {
