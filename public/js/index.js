@@ -133,32 +133,31 @@ function buildShaderPasses() {
   film_pass = new THREE.ShaderPass(THREE.FilmShader);
   film_pass.uniforms['grayscale'].value = 0;
   film_pass.uniforms['sCount'].value = 750;
-  film_pass.uniforms['sIntensity'].value = 1.0;
-  film_pass.uniforms['sIntensity'].value = 1.0;
+  film_pass.uniforms['sIntensity'].value = 2.0;
 
   var fxaa_pass = new THREE.ShaderPass(THREE.FXAAShader);
   fxaa_pass.uniforms['resolution'].value.set(1/window.innerWidth,
       1/window.innerHeight);
 
   static_pass = new THREE.ShaderPass(THREE.StaticShader);
-  static_pass.uniforms['amount'].value = 0.1;
+  static_pass.uniforms['amount'].value = 0.2;
   static_pass.uniforms['size'].value = 10.0;
 
-  //static_pass.renderToScreen = true;
-  if (game.started) {
-    film_pass.renderToScreen = true;
-  }
+  // inefficient but change later
+  var copy_pass = new THREE.ShaderPass(THREE.CopyShader);
+  copy_pass.renderToScreen = true;
 
+  //static_pass.renderToScreen = true;
   finalcomposer.addPass(normal_render);
   finalcomposer.addPass(add_gr);
   finalcomposer.addPass(fxaa_pass);
   finalcomposer.addPass(add_glow);
   finalcomposer.addPass(add_glow);
-  finalcomposer.addPass(film_pass);
   if (!game.started) {
-    static_pass.renderToScreen = true;
+    finalcomposer.addPass(film_pass);
     finalcomposer.addPass(static_pass);
   }
+  finalcomposer.addPass(copy_pass);
 
 }
 
