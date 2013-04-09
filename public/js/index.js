@@ -56,9 +56,10 @@ function init() {
   });
   renderer.setSize( window.innerWidth, window.innerHeight );
 
-  renderer.autoClear = false;
-  renderer.sortObjects = true;
+  //renderer.autoClear = false;
+  //renderer.sortObjects = true;
   $('#container').append(renderer.domElement);
+  windowResize(renderer, camera);
 
   //stats = new Stats();
   //stats.domElement.style.position = 'absolute';
@@ -180,6 +181,18 @@ function render() {
   glowcomposer.render();
   finalcomposer.render();
 };
+
+/**
+ * Window resize callback
+ */
+function windowResize(renderer, camera){
+  var callback = function(){
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', callback, false);
+}
 
 
 /**
