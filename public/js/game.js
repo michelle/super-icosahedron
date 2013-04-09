@@ -78,7 +78,7 @@ Game.prototype.attachKeyListeners = function() {
  */
 Game.prototype.keyLoop = function() {
   if (this.started) {
-    var move_amount = 0.03;
+    var move_amount = 0.02;
     if (this.keyState[65] || this.keyState[37]) {
       this.playerMoveLeft(move_amount);
     }
