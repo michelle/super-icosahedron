@@ -340,22 +340,25 @@ Game.prototype.updateMusic = function(song, playback) {
 Game.prototype.activateCones = function() {
   for (var i = 0; i < 4; i += 1) {
     var cone = core.cones[Math.floor(Math.random() * (core.cones.length - 1))];
-    cone.startTween();
+    if (!cone.lock && !cone.up) {
+      cone.startTween();
 
-    var info = highscores.pop();
-    var email = "";
-    if (info) {
-      var email = info.email;
+      var info = highscores.pop();
+      var email = "";
+      if (info) {
+        var email = info.email;
+      }
+      var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(email));
+      highscores.unshift(info);
+
+      cone.mesh.material = new THREE.MeshLambertMaterial({
+          color: parseInt('0x' 
+                  + Globals.COLORS[Math.floor(Math.random() 
+                    * Globals.COLORS.length)], 16)
+        , map: texture
+      });
     }
-    var texture = THREE.ImageUtils.loadTexture(User.getGravatarUrl(email));
-    highscores.unshift(info);
 
-    cone.mesh.material = new THREE.MeshLambertMaterial({
-        color: parseInt('0x' 
-                 + Globals.COLORS[Math.floor(Math.random() 
-                   * Globals.COLORS.length)], 16)
-      , map: texture
-    });
   }
 
   this.brightenBackground();

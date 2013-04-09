@@ -59,9 +59,12 @@ SquareCone.prototype.setScale = function (s) {
 }
 
 SquareCone.prototype.startTween = function(down) {
-  if (this.up && !down) {
-    return;
+  if (!down) {
+    this.lock = true;
+  } else {
+    this.lock = false;
   }
+
   this.tween_position = { s: this.up ? 1 : 0 };
   this.tween_target = { s: this.up ? 0 : 1 };
   var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 1300);
