@@ -55,6 +55,7 @@ body {
 
 .hs {
   height: 24px;
+  clear: both
 }
 
 .score, .email {
