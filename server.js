@@ -90,6 +90,7 @@ app.get('/existing/:email', function(req, res) {
 
 app.post('/score', function(req, res) {
   var email = req.body.email;
+  email = email.replace(/</g, '&lt;').replace(/>/g, '&gt;');
   var score = req.body.highscore;
 
   if (highscores.length < 25 || score >= parseInt(highscores[highscores.length - 1].highscore)) {
