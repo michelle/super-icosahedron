@@ -66,7 +66,12 @@ Game.prototype.textureExistingMeshes = function() {
 Game.prototype.attachKeyListeners = function() {
   var self = this;
   window.addEventListener('keydown', function(e) {
-    self.keyState[e.keyCode || e.which] = true;
+    var key_code = e.keyCode || e.which;
+    self.keyState[key_code] = true;
+    console.log(key_code);
+    if (key_code == 32) {
+      self.restart();
+    }
   });
   window.addEventListener('keyup', function(e) {
     self.keyState[e.keyCode || e.which] = false;
@@ -95,11 +100,6 @@ Game.prototype.keyLoop = function() {
       if (this.closest_cone_grp.up) {
         this.end();
       }
-    }
-  }
-  else {
-    if (this.keyState[32]) {
-      this.restart();
     }
   }
   setTimeout(this.boundKeyLoop, 10);
