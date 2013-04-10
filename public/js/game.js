@@ -68,7 +68,6 @@ Game.prototype.attachKeyListeners = function() {
   window.addEventListener('keydown', function(e) {
     var key_code = e.keyCode || e.which;
     self.keyState[key_code] = true;
-    console.log(key_code);
     if (key_code == 32) {
       self.restart();
     }
