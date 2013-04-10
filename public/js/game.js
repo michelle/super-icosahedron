@@ -97,6 +97,11 @@ Game.prototype.keyLoop = function() {
       }
     }
   }
+  else {
+    if (this.keyState[32]) {
+      this.restart();
+    }
+  }
   setTimeout(this.boundKeyLoop, 10);
 };
 
@@ -419,7 +424,17 @@ Game.prototype.promptRestart = function() {
   var self = this;
   $('#restart').fadeIn(100);
   $('#restart').click(function() {
-    self.start();
-    $(this).fadeOut(100);
+    self.restart();
   });
 };
+
+/**
+ * Actually restart
+ */
+Game.prototype.restart = function() {
+  if (this.started) {
+    return;
+  }
+  this.start();
+  $('#restart').fadeOut(100);
+}
