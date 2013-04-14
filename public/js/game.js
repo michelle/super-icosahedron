@@ -307,7 +307,7 @@ Game.prototype.updateOpponent = function(data) {
     this.occ_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     this.glow_opponent_meshes[id].position.set(coord[0], coord[1], coord[2]);
     if (!this.song_synced) {
-      if (data.playback > 2) {
+      if (data.playback > 1) {
         this.updateMusic(data.song, Math.floor(data.playback));
       }
       this.song_synced = true;
