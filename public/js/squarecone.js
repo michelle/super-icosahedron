@@ -19,7 +19,7 @@ function SquareCone(length, size, iso_point) {
       , map: texture 
     })
   );
-  this.warn_glow_color = 0x220000;
+  this.warn_glow_color = 0x100000;
   this.normal_glow_color = 0x000000;
   this.ocl_mesh = new THREE.Mesh(this.ocl_geometry,
       new THREE.MeshBasicMaterial( { color: this.normal_glow_color }));
