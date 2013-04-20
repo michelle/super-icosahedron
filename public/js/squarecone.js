@@ -19,8 +19,10 @@ function SquareCone(length, size, iso_point) {
       , map: texture 
     })
   );
+  this.warn_glow_color = 0x220000;
+  this.normal_glow_color = 0x000000;
   this.ocl_mesh = new THREE.Mesh(this.ocl_geometry,
-      new THREE.MeshBasicMaterial( { color: 0x000000 }));
+      new THREE.MeshBasicMaterial( { color: this.normal_glow_color }));
 
   this.group = new THREE.Object3D();
   this.ocl_group = new THREE.Object3D();
@@ -65,6 +67,10 @@ SquareCone.prototype.startTween = function(down) {
     this.lock = false;
   }
 
+  this.ocl_mesh.material = new THREE.MeshBasicMaterial({ 
+    color: this.warn_glow_color
+  });
+
   this.tween_position = { s: this.up ? 1 : 0 };
   this.tween_target = { s: this.up ? 0 : 1 };
   var tween = new TWEEN.Tween(this.tween_position).to(this.tween_target, 1300);
@@ -76,6 +82,10 @@ SquareCone.prototype.startTween = function(down) {
     self.up = !self.up;
     if (self.up) {
       self.startTween(true)
+    } else {
+      self.ocl_mesh.material = new THREE.MeshBasicMaterial({ 
+        color: self.normal_glow_color
+      });
     }
   });
   tween.easing(TWEEN.Easing.Elastic.In)
